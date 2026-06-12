@@ -280,64 +280,17 @@ body {
 .focus-sub { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
 
 /* ===== Main + full-page snap sections ===================== */
-/* Each section is its own full-bleed "page"; .scene-inner re-constrains the
-   copy to the same centered column the hero uses. */
-.main { position: relative; z-index: 1; width: 100%; margin: 0; padding: 0; }
+.main {
+  position: relative; z-index: 1;
+  width: 80%; max-width: 1600px; margin: 0 auto;
+  padding: 0 clamp(18px, 5vw, 40px);
+}
 .snap-section {
   min-height: calc(100vh - 58px);
   display: flex; flex-direction: column; justify-content: center;
   scroll-snap-align: start; padding: clamp(36px, 5vh, 64px) 0;
 }
-.scene-inner {
-  position: relative; z-index: 1;
-  width: 80%; max-width: 1600px; margin: 0 auto;
-  padding: 0 clamp(18px, 5vw, 40px);
-}
-
-/* ===== Little-Prince section scenes (full-bleed backdrops) = */
-.scene { position: relative; overflow: hidden; isolation: isolate; transition: background .5s ease; }
-.scene-art { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.scene-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.scene-art .ink { fill: var(--sc-ink); }
-.scene-art .ground { fill: var(--sc-ink-soft); }
-.scene-art .line { fill: none; stroke: var(--sc-line); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.scene-art .rose { fill: var(--sc-rose); }
-.scene-art .stem { fill: none; stroke: var(--sc-stem); stroke-width: 2.4; stroke-linecap: round; }
-.scene-art .leaf { fill: var(--sc-leaf); }
-.scene-art .star { fill: var(--sc-star); }
-
-/* Tide (porcelain) — the storybook's daylight world */
-.root[data-theme="B"] .scene--inquiries { background: linear-gradient(180deg, #edf1f1 0%, #eef1f1 55%, #e4ecec 100%); }
-.root[data-theme="B"] .scene--pubs       { background: linear-gradient(180deg, #e7ecef 0%, #edf1f2 55%, #e3eaec 100%); }
-.root[data-theme="B"] .scene--projects   { background: linear-gradient(180deg, #eceff1 0%, #e8edee 56%, #dfe6e8 100%); }
-.root[data-theme="B"] .scene--blog        { background: linear-gradient(180deg, #f0efe6 0%, #eceee7 54%, #e4e9e2 100%); }
-.root[data-theme="B"] .scene--contact     { background: linear-gradient(180deg, #f1ece1 0%, #efe8d8 54%, #e6dcc8 100%); }
-.root[data-theme="B"] {
-  --sc-ink: rgba(40,55,64,0.15); --sc-ink-soft: rgba(40,55,64,0.07);
-  --sc-line: rgba(40,55,64,0.28); --sc-rose: #921016;
-  --sc-stem: rgba(95,140,90,0.6); --sc-leaf: rgba(95,140,90,0.5);
-  --sc-star: rgba(40,55,64,0.42); --sc-glow: rgba(216,150,90,0.30);
-}
-
-/* Deep (steel) — the same journey after dusk */
-.root[data-theme="A"] .scene--inquiries { background: linear-gradient(180deg, #1a2735 0%, #172430 55%, #16232f 100%); }
-.root[data-theme="A"] .scene--pubs       { background: linear-gradient(180deg, #131e2b 0%, #17232e 55%, #111c27 100%); }
-.root[data-theme="A"] .scene--projects   { background: linear-gradient(180deg, #1a2733 0%, #16222e 56%, #13202b 100%); }
-.root[data-theme="A"] .scene--blog        { background: linear-gradient(180deg, #21241f 0%, #1b2320 54%, #161f1b 100%); }
-.root[data-theme="A"] .scene--contact     { background: linear-gradient(180deg, #211d16 0%, #1d1a13 54%, #171410 100%); }
-.root[data-theme="A"] {
-  --sc-ink: rgba(214,226,235,0.16); --sc-ink-soft: rgba(214,226,235,0.07);
-  --sc-line: rgba(214,226,235,0.26); --sc-rose: #e08a72;
-  --sc-stem: rgba(150,190,150,0.5); --sc-leaf: rgba(150,190,150,0.45);
-  --sc-star: rgba(220,230,238,0.7); --sc-glow: rgba(221,144,114,0.32);
-}
-
-.sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
-.sec-fable {
-  font-family: 'Spectral', 'Noto Serif SC', serif; font-style: italic; font-weight: 500;
-  font-size: clamp(15px, 1.8vw, 18px); color: var(--sc-rose); opacity: 0.92;
-  letter-spacing: 0.01em;
-}
+.sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
 .sec-head--lg { margin-bottom: 26px; }
 .sec-head--sm { margin-bottom: 16px; }
 .sec-num { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--accent); }

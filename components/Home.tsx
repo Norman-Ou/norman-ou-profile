@@ -66,113 +66,6 @@ function PhotoIcon() {
   );
 }
 
-/** Faint starfield used by the "群星 · Stars" publications scene. */
-const SCENE_STARS: [number, number, number][] = [
-  [150, 70, 2.4], [270, 52, 1.8], [360, 96, 2.6], [470, 64, 2], [580, 44, 2.4],
-  [690, 90, 1.8], [780, 58, 2.6], [900, 80, 2], [1010, 54, 2.4], [1090, 104, 1.8],
-  [230, 150, 2], [520, 134, 2.6], [660, 168, 1.8], [840, 150, 2.4], [980, 186, 2],
-  [1060, 150, 2.6], [330, 210, 1.8], [600, 220, 2.2], [760, 250, 1.8], [160, 240, 2.4], [1120, 200, 2],
-];
-
-type SceneVariant = 'elephant' | 'stars' | 'lamplighter' | 'fox' | 'well';
-
-/**
- * Full-bleed silhouette backdrop for each section — one stop on the Little
- * Prince's journey. Drawn in faint ink so foreground copy stays legible; the
- * recurring red dot/flower (北大红 / PKU red) is the thread tying the scenes.
- */
-function SceneArt({ variant }: { variant: SceneVariant }) {
-  return (
-    <div className="scene-art" aria-hidden="true">
-      <svg className="scene-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMax slice">
-        {variant === 'elephant' && (
-          <>
-            <path className="ink" d="M150,460 C430,460 420,300 600,300 C780,300 770,460 1050,460 Z" />
-            <path className="line" d="M150,460 C430,460 420,300 600,300 C780,300 770,460 1050,460" />
-            <circle className="rose" cx="548" cy="362" r="7" />
-          </>
-        )}
-
-        {variant === 'stars' && (
-          <>
-            {SCENE_STARS.map(([x, y, r], i) => (
-              <circle className="star" cx={x} cy={y} r={r} key={i} />
-            ))}
-            <path className="ground" d="M40,460 Q220,418 400,460 L400,470 L40,470 Z" />
-            <g transform="translate(190,310) scale(2.5)">
-              <circle className="ink" cx="20" cy="13" r="7.5" />
-              <path className="ink" d="M8,60 L20,28 L32,60 Z" />
-            </g>
-            <g transform="translate(250,248) scale(3)">
-              <path className="rose" d="M6,0 L7,5 L12,6 L7,7 L6,12 L5,7 L0,6 L5,5 Z" />
-            </g>
-          </>
-        )}
-
-        {variant === 'lamplighter' && (
-          <>
-            <defs>
-              <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="var(--sc-glow)" />
-                <stop offset="100%" stopColor="transparent" />
-              </radialGradient>
-            </defs>
-            <path className="ground" d="M0,460 Q600,380 1200,460 L1200,600 L0,600 Z" />
-            <path className="line" d="M0,460 Q600,380 1200,460" />
-            <circle cx="820" cy="300" r="52" fill="url(#lampGlow)" />
-            <line className="line" x1="820" y1="300" x2="820" y2="425" />
-            <rect className="ink" x="809" y="278" width="22" height="18" rx="2" />
-            <g transform="translate(405,250) scale(2.9)">
-              <circle className="ink" cx="20" cy="13" r="7.5" />
-              <path className="ink" d="M8,60 L20,28 L32,60 Z" />
-            </g>
-            <path className="line" d="M286,412 a16,18 0 0 1 32,0" />
-            <circle className="rose" cx="302" cy="408" r="7" />
-          </>
-        )}
-
-        {variant === 'fox' && (
-          <>
-            {[70, 116, 162, 208, 254, 300, 980, 1026, 1072, 1118, 1150].map((x, i) => (
-              <path
-                className="stem"
-                d={`M${x},460 Q${x + (i % 2 ? 5 : -5)},400 ${x},356`}
-                key={i}
-              />
-            ))}
-            <g transform="translate(540,310) scale(3)">
-              <path className="ink" d="M10,50 Q6,22 18,16 L12,4 L22,14 Q30,12 38,14 L48,4 L42,16 Q54,24 50,50 Z" />
-            </g>
-            <line className="stem" x1="850" y1="460" x2="850" y2="382" />
-            <ellipse className="leaf" cx="838" cy="410" rx="11" ry="4.5" transform="rotate(-24 838 410)" />
-            <circle className="rose" cx="850" cy="374" r="8" />
-          </>
-        )}
-
-        {variant === 'well' && (
-          <>
-            <path className="ground" d="M0,470 Q300,430 600,452 Q900,474 1200,440 L1200,600 L0,600 Z" />
-            <path className="line" d="M0,470 Q300,430 600,452 Q900,474 1200,440" />
-            <rect className="line" x="596" y="392" width="64" height="44" rx="4" />
-            <line className="line" x1="596" y1="372" x2="660" y2="372" />
-            <line className="line" x1="603" y1="372" x2="610" y2="392" />
-            <line className="line" x1="653" y1="372" x2="646" y2="392" />
-            <line className="line" x1="628" y1="372" x2="628" y2="386" />
-            <rect className="ink" x="622" y="386" width="12" height="9" rx="1" />
-            <g transform="translate(430,280) scale(2.9)">
-              <circle className="ink" cx="22" cy="12" r="7" />
-              <path className="ink" d="M11,62 L22,30 L33,62 Z" />
-              <path className="line" d="M22,34 L43,42" />
-            </g>
-            <line className="stem" x1="566" y1="452" x2="566" y2="404" />
-            <circle className="rose" cx="566" cy="396" r="7" />
-          </>
-        )}
-      </svg>
-    </div>
-  );
-}
-
 /** Golden-hour / moonlit ambience layered behind the hero. */
 function HeroMood() {
   return (
@@ -303,16 +196,6 @@ export default function Home() {
   };
 
   const c = CONTENT[lang];
-  const fable =
-    lang === 'zh'
-      ? { inq: '看不见的大象', pub: '群星', proj: '点灯人', blog: '狐狸与麦田', contact: '沙漠之井' }
-      : {
-          inq: 'The Invisible Elephant',
-          pub: 'The Stars',
-          proj: 'The Lamplighter',
-          blog: 'The Fox & the Wheat',
-          contact: 'The Well in the Desert',
-        };
   const navLabels: Record<SectionId, string> = {
     top: c.nav.home,
     inquiries: c.nav.about,
@@ -475,146 +358,126 @@ export default function Home() {
       </section>
 
       <main className="main">
-        {/* ===== 01 INQUIRIES · 看不见的大象 ===== */}
-        <section id="inquiries" className="snap-section scene scene--inquiries">
-          <SceneArt variant="elephant" />
-          <div className="scene-inner">
-            <div className="sec-head">
-              <span className="sec-num">01</span>
-              <h2 className="sec-title">{c.inqTitle}</h2>
-              <span className="sec-fable">{fable.inq}</span>
-            </div>
-            <div className="sec-note">{c.inqNote}</div>
-            <div className="inq-grid">
-              {c.inquiries.map((iq) => (
-                <div className="inq-card" key={iq.no}>
-                  <div className="inq-no">{iq.no}</div>
-                  <h3 className="inq-title">{iq.title}</h3>
-                  <p className="inq-desc">{iq.desc}</p>
+        {/* ===== 01 INQUIRIES ===== */}
+        <section id="inquiries" className="snap-section">
+          <div className="sec-head">
+            <span className="sec-num">01</span>
+            <h2 className="sec-title">{c.inqTitle}</h2>
+          </div>
+          <div className="sec-note">{c.inqNote}</div>
+          <div className="inq-grid">
+            {c.inquiries.map((iq) => (
+              <div className="inq-card" key={iq.no}>
+                <div className="inq-no">{iq.no}</div>
+                <h3 className="inq-title">{iq.title}</h3>
+                <p className="inq-desc">{iq.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ===== 02 PUBLICATIONS ===== */}
+        <section id="pubs" className="snap-section">
+          <div className="sec-head">
+            <span className="sec-num">02</span>
+            <h2 className="sec-title">{c.pubTitle}</h2>
+          </div>
+          <div className="pub-note">{c.pubNote}</div>
+          <div className="pub-list">
+            {c.pubs.map((p, i) => (
+              <article className="pub-item" key={`${p.year}-${i}`}>
+                <div className="pub-year">{p.year}</div>
+                <div className="pub-body">
+                  <h3 className="pub-title">{p.title}</h3>
+                  <div className="pub-authors">{p.authors}</div>
+                  <div className="pub-venue">{p.venue}</div>
+                  <div className="pub-links">
+                    {p.links.map((l) => {
+                      const ext = !!l.href && /^https?:/i.test(l.href);
+                      return (
+                        <a
+                          className="pub-link"
+                          href={l.href ?? '#'}
+                          key={l.label}
+                          target={ext ? '_blank' : undefined}
+                          rel={ext ? 'noopener noreferrer' : undefined}
+                        >
+                          {l.label}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
-              ))}
-            </div>
+              </article>
+            ))}
           </div>
         </section>
 
-        {/* ===== 02 PUBLICATIONS · 群星 ===== */}
-        <section id="pubs" className="snap-section scene scene--pubs">
-          <SceneArt variant="stars" />
-          <div className="scene-inner">
-            <div className="sec-head">
-              <span className="sec-num">02</span>
-              <h2 className="sec-title">{c.pubTitle}</h2>
-              <span className="sec-fable">{fable.pub}</span>
-            </div>
-            <div className="pub-note">{c.pubNote}</div>
-            <div className="pub-list">
-              {c.pubs.map((p, i) => (
-                <article className="pub-item" key={`${p.year}-${i}`}>
-                  <div className="pub-year">{p.year}</div>
-                  <div className="pub-body">
-                    <h3 className="pub-title">{p.title}</h3>
-                    <div className="pub-authors">{p.authors}</div>
-                    <div className="pub-venue">{p.venue}</div>
-                    <div className="pub-links">
-                      {p.links.map((l) => {
-                        const ext = !!l.href && /^https?:/i.test(l.href);
-                        return (
-                          <a
-                            className="pub-link"
-                            href={l.href ?? '#'}
-                            key={l.label}
-                            target={ext ? '_blank' : undefined}
-                            rel={ext ? 'noopener noreferrer' : undefined}
-                          >
-                            {l.label}
-                          </a>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+        {/* ===== 03 PROJECTS ===== */}
+        <section id="projects" className="snap-section">
+          <div className="sec-head sec-head--lg">
+            <span className="sec-num">03</span>
+            <h2 className="sec-title">{c.projTitle}</h2>
+          </div>
+          <div className="proj-grid">
+            {c.projects.map((pr) => (
+              <article className="proj-card" key={pr.name}>
+                <div className="proj-head">
+                  <span className="proj-dot" />
+                  <h3 className="proj-name">{pr.name}</h3>
+                </div>
+                <p className="proj-desc">{pr.desc}</p>
+                <div className="proj-tags">
+                  {pr.tags.map((tg) => (
+                    <span className="proj-tag" key={tg}>
+                      {tg}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
-        {/* ===== 03 PROJECTS · 点灯人 ===== */}
-        <section id="projects" className="snap-section scene scene--projects">
-          <SceneArt variant="lamplighter" />
-          <div className="scene-inner">
-            <div className="sec-head sec-head--lg">
-              <span className="sec-num">03</span>
-              <h2 className="sec-title">{c.projTitle}</h2>
-              <span className="sec-fable">{fable.proj}</span>
-            </div>
-            <div className="proj-grid">
-              {c.projects.map((pr) => (
-                <article className="proj-card" key={pr.name}>
-                  <div className="proj-head">
-                    <span className="proj-dot" />
-                    <h3 className="proj-name">{pr.name}</h3>
-                  </div>
-                  <p className="proj-desc">{pr.desc}</p>
-                  <div className="proj-tags">
-                    {pr.tags.map((tg) => (
-                      <span className="proj-tag" key={tg}>
-                        {tg}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
+        {/* ===== 04 BLOG ===== */}
+        <section id="blog" className="snap-section">
+          <div className="sec-head sec-head--lg">
+            <span className="sec-num">04</span>
+            <h2 className="sec-title">{c.blogTitle}</h2>
+          </div>
+          <div className="blog-list">
+            {c.posts.map((po, i) => (
+              <a className="post" href={po.href ?? '#'} key={`${po.date}-${i}`}>
+                <div className="post-date">{po.date}</div>
+                <div className="post-body">
+                  <h3 className="post-title">{po.title}</h3>
+                  <p className="post-excerpt">{po.excerpt}</p>
+                </div>
+                <span className="post-arrow">→</span>
+              </a>
+            ))}
           </div>
         </section>
 
-        {/* ===== 04 BLOG · 狐狸与麦田 ===== */}
-        <section id="blog" className="snap-section scene scene--blog">
-          <SceneArt variant="fox" />
-          <div className="scene-inner">
-            <div className="sec-head sec-head--lg">
-              <span className="sec-num">04</span>
-              <h2 className="sec-title">{c.blogTitle}</h2>
-              <span className="sec-fable">{fable.blog}</span>
+        {/* ===== 05 CONTACT ===== */}
+        <section id="contact" className="snap-section">
+          <div className="contact-card">
+            <div className="sec-head sec-head--sm">
+              <span className="sec-num">05</span>
+              <h2 className="sec-title">{c.contactTitle}</h2>
             </div>
-            <div className="blog-list">
-              {c.posts.map((po, i) => (
-                <a className="post" href={po.href ?? '#'} key={`${po.date}-${i}`}>
-                  <div className="post-date">{po.date}</div>
-                  <div className="post-body">
-                    <h3 className="post-title">{po.title}</h3>
-                    <p className="post-excerpt">{po.excerpt}</p>
-                  </div>
-                  <span className="post-arrow">→</span>
+            <p className="contact-body">{c.contactBody}</p>
+            <div className="link-list">
+              {c.links.map((lk) => (
+                <a className="link-row" href={lk.href} key={lk.label}>
+                  <span className="link-label">{lk.label}</span>
+                  <span className="link-value">{lk.value}</span>
+                  <span className="link-ext">↗</span>
                 </a>
               ))}
             </div>
           </div>
-        </section>
-
-        {/* ===== 05 CONTACT · 沙漠之井 ===== */}
-        <section id="contact" className="snap-section scene scene--contact">
-          <SceneArt variant="well" />
-          <div className="scene-inner">
-            <div className="contact-card">
-              <div className="sec-head sec-head--sm">
-                <span className="sec-num">05</span>
-                <h2 className="sec-title">{c.contactTitle}</h2>
-                <span className="sec-fable">{fable.contact}</span>
-              </div>
-              <p className="contact-body">{c.contactBody}</p>
-              <div className="link-list">
-                {c.links.map((lk) => (
-                  <a className="link-row" href={lk.href} key={lk.label}>
-                    <span className="link-label">{lk.label}</span>
-                    <span className="link-value">{lk.value}</span>
-                    <span className="link-ext">↗</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-            <footer className="site-footer">{c.footer}</footer>
-          </div>
+          <footer className="site-footer">{c.footer}</footer>
         </section>
       </main>
     </div>
