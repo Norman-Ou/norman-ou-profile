@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=Noto+Serif+SC:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#dee3e3; font-family:'IBM Plex Sans','Noto Sans SC',sans-serif; -webkit-font-smoothing:antialiased; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:radial-gradient(120% 80% at 50% 0%,#e8ecec,#d6dbdb);color:#1f2a30;padding:clamp(28px,5vw,60px) clamp(18px,4vw,48px) 90px">
+  <div style="max-width:1080px;margin:0 auto">
+
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:#2a7d86;margin-bottom:14px">Le Petit Prince · 小王子</div>
+    <h1 style="font-family:'Spectral','Noto Serif SC',serif;font-weight:600;font-size:clamp(30px,4.5vw,44px);line-height:1.1;margin:0 0 12px">用小王子的旅程贯通各板块</h1>
+    <p style="font-size:15px;line-height:1.65;color:#5e7378;max-width:66ch;margin:0 0 14px">首页保持「夏日海滩」不动。其余五个板块顺着小王子的故事走——从「看不见的大象」到沙漠的井，全部冷瓷白弥散底纹、简笔剪影，红玫瑰（北大红）作为复现线索串联。告诉我是否定这条线，或调整某个意向。</p>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#7c8a8e;margin-bottom:40px">探索·看不见的大象 / 论文·群星 / 项目·点灯人 / 随笔·狐狸与麦田 / 联系·沙漠之井</div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:26px">
+
+      <!-- Inquiries · Boa/Hat -->
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="position:relative;height:240px;border-radius:16px;overflow:hidden;border:1px solid rgba(27,47,56,0.08);box-shadow:0 16px 34px -26px rgba(27,47,56,0.4);background:linear-gradient(180deg,#edf1f1 0%,#eef1f1 55%,#e4ecec 100%)">
+          <svg viewBox="0 0 400 150" preserveAspectRatio="none" style="position:absolute;left:0;right:0;top:24%;width:100%;height:46%"><path d="M20,140 C100,140 96,58 200,58 C300,58 300,140 380,140" fill="none" stroke="rgba(40,55,64,0.34)" stroke-width="1.6" stroke-linecap="round"/><path d="M20,140 C100,140 96,58 200,58 C300,58 300,140 380,140 Z" fill="rgba(40,55,64,0.06)"/></svg>
+          <div style="position:absolute;left:46%;top:40%;width:5px;height:5px;border-radius:50%;background:#9c1016;opacity:0.85"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;background:linear-gradient(0deg,rgba(238,241,241,0.9),rgba(238,241,241,0.18) 64%,transparent)"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#2a7d86;margin-bottom:5px">探索 · INQUIRIES</div><div style="font-family:'Spectral','Noto Serif SC',serif;font-weight:600;font-size:20px;color:#1b2f38">看不见的大象</div></div>
+        </div>
+        <div style="font-size:13px;color:#5e7378;line-height:1.5;padding-left:2px">吞了大象的蟒蛇（像帽子）——看见别人看不见的，正合「探索」。</div>
+      </div>
+
+      <!-- Publications · Stars -->
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="position:relative;height:240px;border-radius:16px;overflow:hidden;border:1px solid rgba(27,47,56,0.08);box-shadow:0 16px 34px -26px rgba(27,47,56,0.4);background:linear-gradient(180deg,#e7ecef 0%,#edf1f2 55%,#e3eaec 100%)">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 18% 22%,rgba(27,47,56,0.42),transparent),radial-gradient(1.6px 1.6px at 60% 14%,rgba(42,125,134,0.5),transparent),radial-gradient(1.3px 1.3px at 82% 28%,rgba(27,47,56,0.36),transparent),radial-gradient(1.4px 1.4px at 38% 30%,rgba(27,47,56,0.34),transparent),radial-gradient(1.5px 1.5px at 72% 40%,rgba(27,47,56,0.34),transparent),radial-gradient(1.3px 1.3px at 26% 44%,rgba(27,47,56,0.3),transparent)"></div>
+          <svg viewBox="0 0 40 60" style="position:absolute;left:14%;bottom:70px;width:24px;height:36px"><circle cx="20" cy="13" r="7.5" fill="rgba(40,55,64,0.5)"/><path d="M8,60 L20,28 L32,60 Z" fill="rgba(40,55,64,0.5)"/></svg>
+          <svg viewBox="0 0 12 12" style="position:absolute;left:20%;bottom:108px;width:12px;height:12px"><path d="M6,0 L7,5 L12,6 L7,7 L6,12 L5,7 L0,6 L5,5 Z" fill="#9c1016"/></svg><div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;background:linear-gradient(0deg,rgba(237,241,242,0.92),rgba(237,241,242,0.18) 64%,transparent)"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#2a7d86;margin-bottom:5px">论文 · PUBLICATIONS</div><div style="font-family:'Spectral','Noto Serif SC',serif;font-weight:600;font-size:20px;color:#1b2f38">群星</div></div>
+        </div>
+        <div style="font-size:13px;color:#5e7378;line-height:1.5;padding-left:2px">「所有的星星都会笑」——小王子仰望群星，每颗是一篇论文。</div>
+      </div>
+
+      <!-- Projects · Lamplighter -->
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="position:relative;height:240px;border-radius:16px;overflow:hidden;border:1px solid rgba(27,47,56,0.08);box-shadow:0 16px 34px -26px rgba(27,47,56,0.4);background:linear-gradient(180deg,#eceff1 0%,#e8edee 56%,#dfe6e8 100%)">
+          <svg viewBox="0 0 400 110" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:0;width:100%;height:50%"><path d="M0,110 L0,72 Q200,30 400,72 L400,110 Z" fill="rgba(40,55,64,0.12)"/><path d="M0,72 Q200,30 400,72" fill="none" stroke="rgba(40,55,64,0.26)" stroke-width="1.2"/></svg>
+          <div style="position:absolute;left:60%;bottom:62px;width:2px;height:40px;background:rgba(40,55,64,0.5)"></div>
+          <div style="position:absolute;left:calc(60% - 4px);bottom:100px;width:10px;height:9px;border-radius:2px;background:rgba(40,55,64,0.5)"></div>
+          <div style="position:absolute;left:calc(60% - 9px);bottom:88px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(216,150,90,0.5),transparent 70%)"></div>
+          <div style="position:absolute;left:30%;bottom:64px;width:6px;height:6px;border-radius:50%;background:#9c1016;opacity:0.9"></div><div style="position:absolute;left:calc(30% - 4px);bottom:66px;width:14px;height:14px;border:1px solid rgba(40,55,64,0.4);border-bottom:none;border-radius:50% 50% 0 0"></div><div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;background:linear-gradient(0deg,rgba(232,237,238,0.92),rgba(232,237,238,0.18) 64%,transparent)"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#2a7d86;margin-bottom:5px">项目 · PROJECTS</div><div style="font-family:'Spectral','Noto Serif SC',serif;font-weight:600;font-size:20px;color:#1b2f38">点灯人</div></div>
+        </div>
+        <div style="font-size:13px;color:#5e7378;line-height:1.5;padding-left:2px">忠于职守、一遍遍点灯的人——动手造物，正合「项目」。</div>
+      </div>
+
+      <!-- Blog · Fox & Wheat -->
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="position:relative;height:240px;border-radius:16px;overflow:hidden;border:1px solid rgba(27,47,56,0.08);box-shadow:0 16px 34px -26px rgba(27,47,56,0.4);background:linear-gradient(180deg,#f0efe6 0%,#eceee7 54%,#e4e9e2 100%)">
+          <svg viewBox="0 0 400 80" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:14%;width:100%;height:38%"><g stroke="rgba(176,150,96,0.5)" stroke-width="1.2" fill="none" stroke-linecap="round"><path d="M30,80 Q28,52 30,44"/><path d="M70,80 Q73,50 70,42"/><path d="M110,80 Q108,54 110,46"/><path d="M150,80 Q153,50 150,42"/><path d="M250,80 Q248,52 250,44"/><path d="M290,80 Q293,50 290,42"/><path d="M330,80 Q328,54 330,46"/><path d="M370,80 Q373,50 370,42"/></g></svg>
+          <svg viewBox="0 0 60 50" style="position:absolute;left:46%;bottom:54px;width:34px;height:28px"><path d="M10,50 Q6,22 18,16 L12,4 L22,14 Q30,12 38,14 L48,4 L42,16 Q54,24 50,50 Z" fill="rgba(168,96,60,0.42)"/></svg>
+          <div style="position:absolute;left:72%;bottom:58px;width:1.5px;height:17px;background:rgba(95,140,90,0.6)"></div><div style="position:absolute;left:calc(72% - 1px);bottom:73px;width:6px;height:6px;border-radius:50%;background:#9c1016"></div><div style="position:absolute;left:calc(72% - 6px);bottom:65px;width:7px;height:3px;border-radius:50%;background:rgba(95,140,90,0.55);transform:rotate(-22deg)"></div><div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;background:linear-gradient(0deg,rgba(236,238,231,0.92),rgba(236,238,231,0.18) 64%,transparent)"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#2a7d86;margin-bottom:5px">随笔 · BLOG</div><div style="font-family:'Spectral','Noto Serif SC',serif;font-weight:600;font-size:20px;color:#1b2f38">狐狸与麦田</div></div>
+        </div>
+        <div style="font-size:13px;color:#5e7378;line-height:1.5;padding-left:2px">「驯养」与金色麦田——关于联系与思考，正合「随笔」。</div>
+      </div>
+
+      <!-- Contact · The Well -->
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="position:relative;height:240px;border-radius:16px;overflow:hidden;border:1px solid rgba(27,47,56,0.08);box-shadow:0 16px 34px -26px rgba(27,47,56,0.4);background:linear-gradient(180deg,#f1ece1 0%,#efe8d8 54%,#e6dcc8 100%)">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(214,150,100,0.12),transparent 44%)"></div>
+          <svg viewBox="0 0 400 110" preserveAspectRatio="none" style="position:absolute;left:0;right:0;bottom:0;width:100%;height:50%"><path d="M0,110 L0,76 Q140,52 260,70 Q340,82 400,64 L400,110 Z" fill="rgba(176,140,100,0.2)"/></svg>
+          <div style="position:absolute;left:54%;bottom:50px;width:36px;height:22px;border:1.5px solid rgba(40,55,64,0.45);border-radius:3px;background:rgba(40,55,64,0.05)"></div>
+          <div style="position:absolute;left:54%;bottom:72px;width:36px;height:2px;background:rgba(40,55,64,0.4)"></div>
+          <div style="position:absolute;left:calc(54% + 4px);bottom:72px;width:2px;height:14px;background:rgba(40,55,64,0.4);transform:rotate(16deg);transform-origin:bottom"></div>
+          <div style="position:absolute;left:calc(54% + 30px);bottom:72px;width:2px;height:14px;background:rgba(40,55,64,0.4);transform:rotate(-16deg);transform-origin:bottom"></div>
+          <svg viewBox="0 0 50 62" style="position:absolute;left:35%;bottom:52px;width:26px;height:32px"><circle cx="22" cy="12" r="7" fill="rgba(40,55,64,0.55)"/><path d="M11,62 L22,30 L33,62 Z" fill="rgba(40,55,64,0.55)"/><path d="M22,34 L43,42" stroke="rgba(40,55,64,0.5)" stroke-width="2" fill="none"/></svg><div style="position:absolute;left:calc(35% + 23px);bottom:62px;width:1.5px;height:13px;background:rgba(95,140,90,0.55)"></div><div style="position:absolute;left:calc(35% + 21px);bottom:73px;width:6px;height:6px;border-radius:50%;background:#9c1016"></div><div style="position:absolute;left:0;right:0;bottom:0;padding:18px 20px;background:linear-gradient(0deg,rgba(238,232,219,0.92),rgba(238,232,219,0.18) 64%,transparent)"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;color:#b8552a;margin-bottom:5px">联系 · CONTACT</div><div style="font-family:'Spectral','Noto Serif SC',serif;font-weight:600;font-size:20px;color:#3a2e22">沙漠之井</div></div>
+        </div>
+        <div style="font-size:13px;color:#5e7378;line-height:1.5;padding-left:2px">「沙漠之所以美，是因为某处藏着一口井」——邀约联系。</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
