@@ -324,17 +324,9 @@ export default function Home() {
           </div>
 
           <div className="hero-info">
-            <div className="skills">
-              {c.skills.map((sk) => (
-                <span className="chip" key={sk}>
-                  {sk}
-                </span>
-              ))}
-            </div>
             <h1 className="hero-name">
-              {c.heroLine1}
-              <br />
-              <span>{c.heroLine2}</span>
+              <span className="hero-line1">{c.heroLine1}</span>
+              <span className="hero-line2">{c.heroLine2}</span>
             </h1>
             <p className="hero-intro">{c.heroIntro}</p>
 
@@ -400,11 +392,20 @@ export default function Home() {
                   <div className="pub-authors">{p.authors}</div>
                   <div className="pub-venue">{p.venue}</div>
                   <div className="pub-links">
-                    {p.links.map((l) => (
-                      <a className="pub-link" href={l.href ?? '#'} key={l.label}>
-                        {l.label}
-                      </a>
-                    ))}
+                    {p.links.map((l) => {
+                      const ext = !!l.href && /^https?:/i.test(l.href);
+                      return (
+                        <a
+                          className="pub-link"
+                          href={l.href ?? '#'}
+                          key={l.label}
+                          target={ext ? '_blank' : undefined}
+                          rel={ext ? 'noopener noreferrer' : undefined}
+                        >
+                          {l.label}
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               </article>

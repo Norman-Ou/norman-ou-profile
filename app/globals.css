@@ -8,7 +8,7 @@
 * { box-sizing: border-box; }
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
   scroll-padding-top: 58px;
 }
 body {
@@ -39,6 +39,7 @@ body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  padding-top: 58px; /* reserve space for the fixed header */
   transition: background .5s ease, color .4s ease;
   font-family: 'IBM Plex Sans', 'Noto Sans SC', sans-serif;
 }
@@ -88,7 +89,7 @@ body {
 
 /* ===== Top bar ============================================= */
 .site-header {
-  position: sticky; top: 0; z-index: 40;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 40;
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   background: var(--chrome); border-bottom: 1px solid var(--border);
 }
@@ -225,31 +226,28 @@ body {
 .photo-slot.filled:hover .photo-remove { display: flex; }
 
 .hero-info { flex: 2 1 440px; min-width: 300px; }
-.skills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
-.chip {
-  display: inline-flex; align-items: center; padding: 5px 13px; border-radius: 999px;
-  border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow);
-  font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--accent); white-space: nowrap;
-}
 .hero-name {
   font-family: 'Spectral', 'Noto Serif SC', serif; font-weight: 600;
   font-size: clamp(42px, 6.4vw, 86px); line-height: 1.0; letter-spacing: -0.015em;
   margin: 0 0 26px; color: var(--text);
 }
-.hero-name span { font-style: italic; font-weight: 500; color: var(--muted); }
+.hero-line1 { display: block; }
+.hero-line2 { display: block; font-style: italic; font-weight: 500; color: var(--muted); }
 .hero-intro {
   font-size: clamp(17px, 2.1vw, 21px); line-height: 1.55; color: var(--text-soft);
-  max-width: 42ch; margin: 0 0 12px;
+  margin: 0 0 12px;
 }
 .edu-stack { display: flex; flex-direction: column; margin-top: 22px; }
 .edu-item {
   display: flex; gap: clamp(13px, 2.5vw, 20px); padding: 20px 0;
   border-top: 1px solid var(--border); align-items: stretch;
 }
-.edu-bar { width: 3px; border-radius: 2px; flex: 0 0 auto; }
+/* Nudge the colored bar ~10px right of the focus-box's left border; the equal
+   negative margin on the label cancels the shift so NOW/MASTER/UNDERGRAD and
+   their titles stay aligned with RESEARCH FOCUS. */
+.edu-bar { width: 3px; border-radius: 2px; flex: 0 0 auto; margin-left: 10px; }
 .edu-label {
-  flex: 0 0 clamp(72px, 9vw, 104px);
+  flex: 0 0 clamp(72px, 9vw, 104px); margin-left: -10px;
   font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--accent); padding-top: 5px;
 }
@@ -279,7 +277,7 @@ body {
   font-size: clamp(20px, 2.5vw, 26px); color: var(--text);
   line-height: 1.24; margin-bottom: 9px; white-space: nowrap;
 }
-.focus-sub { font-size: 14.5px; color: var(--muted); line-height: 1.6; max-width: 46ch; }
+.focus-sub { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
 
 /* ===== Main + full-page snap sections ===================== */
 .main {

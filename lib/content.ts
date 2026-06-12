@@ -65,7 +65,6 @@ export interface Content {
   /** theme toggle labels: tA = Deep, tB = Tide */
   tA: string;
   tB: string;
-  skills: string[];
   nav: NavLabels;
   photoLabel: string;
   photoSub: string;
@@ -93,12 +92,11 @@ export interface Content {
 const zh: Content = {
   tA: '深流',
   tB: '潮线',
-  skills: ['AI for Science', '机器学习', '遥感', '地球观测'],
   nav: { home: '首页', about: '探索', pubs: '论文', projects: '项目', blog: '随笔', contact: '联系' },
   photoLabel: '拖入你的照片',
   photoSub: '或 点击浏览',
-  heroLine1: '区睿哲 —',
-  heroLine2: 'Ruizhe。',
+  heroLine1: '区睿哲 — Ruizhe',
+  heroLine2: '',
   heroIntro:
     '地球每天都在用光与雷达记录自己。我着迷于一个问题——AI 能否让我们把它读得更清楚，而不是更模糊。',
   eduStack: [
@@ -111,13 +109,13 @@ const zh: Content = {
     {
       label: '硕士',
       title: '工学硕士 · 人工智能',
-      sub: '北京邮电大学 BUPT · 导师 张闯 教授 · 2023 – 2026',
+      sub: '北京邮电大学 · 导师: 张闯 · 2023 - 2026',
       color: 'var(--accent)',
     },
     {
       label: '本科',
       title: '工学学士 · 电信工程与管理',
-      sub: '北京邮电大学 × 伦敦玛丽女王大学 · 优秀毕业生 · 2019 – 2023',
+      sub: '北京邮电大学 x QMUL · 优秀毕业生 · 2019 - 2023',
       color: 'var(--bupt)',
     },
   ],
@@ -138,11 +136,15 @@ const zh: Content = {
   pubNote: '占位内容 — 替换为你的真实论文',
   pubs: [
     {
-      year: '2026',
-      title: '示例论文标题：一种用于多模态感知的高效方法',
-      authors: 'R. Ou, A. Collaborator, B. Advisor',
-      venue: 'NeurIPS 2026（占位）',
-      links: [{ label: 'PDF' }, { label: 'CODE' }, { label: 'BIBTEX' }],
+      year: '2025',
+      title: 'GeoPix: A multimodal large language model for pixel-level image understanding in remote sensing',
+      authors: 'R. Ou, Y. Hu, F. Zhang, J. Chen, Y. Liu',
+      venue: 'IEEE Geoscience and Remote Sensing Magazine, pp. 2–16',
+      links: [
+        { label: 'arXiv', href: 'https://arxiv.org/abs/2501.06828' },
+        { label: 'IEEE', href: 'https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10994415' },
+        { label: 'Code', href: 'https://github.com/Norman-Ou/GeoPix' },
+      ],
     },
     {
       year: '2025',
@@ -184,31 +186,30 @@ const zh: Content = {
 const en: Content = {
   tA: 'Deep',
   tB: 'Tide',
-  skills: ['AI for Science', 'Machine Learning', 'Remote Sensing', 'Earth Observation'],
   nav: { home: 'Home', about: 'Inquiries', pubs: 'Publications', projects: 'Projects', blog: 'Blog', contact: 'Contact' },
   photoLabel: 'Drop your photo',
   photoSub: 'or browse files',
-  heroLine1: 'OU Ruizhe —',
-  heroLine2: 'Richie.',
+  heroLine1: 'OU Ruizhe - Richie',
+  heroLine2: '',
   heroIntro:
-    'Every day the Earth records itself in light and radar. I am drawn to the question of whether AI can help us read it more clearly — not less.',
+    "Culture shapes how we understand agency. I'm drawn to the question of whether AI can help us see more clearly — not less.",
   eduStack: [
     {
       label: 'NOW',
-      title: 'PhD · Remote Sensing Sci. & Tech.',
+      title: 'PhD · Remote Sensing Science and Technology',
       sub: 'Peking University · Fall 2026',
       color: 'var(--pku)',
     },
     {
       label: 'MASTER',
       title: 'MEng · Artificial Intelligence',
-      sub: 'BUPT · Advisor Prof. Zhang Chuang · 2023 – 2026',
+      sub: 'Beijing University of Posts and Telecommunications (BUPT) · with Prof. Zhang Chuang',
       color: 'var(--accent)',
     },
     {
       label: 'UNDERGRAD',
-      title: 'BEng · Telecom Eng. with Management',
-      sub: 'BUPT × QMUL · First Class Honours · 2019 – 2023',
+      title: 'BEng · Telecom Engineering with Management',
+      sub: 'BUPT x Queen Mary University of London (QMUL) · First Class Honours',
       color: 'var(--bupt)',
     },
   ],
@@ -229,11 +230,15 @@ const en: Content = {
   pubNote: 'PLACEHOLDER — replace with your real papers',
   pubs: [
     {
-      year: '2026',
-      title: 'Sample title: An efficient method for multimodal sensing',
-      authors: 'R. Ou, A. Collaborator, B. Advisor',
-      venue: 'NeurIPS 2026 (placeholder)',
-      links: [{ label: 'PDF' }, { label: 'CODE' }, { label: 'BIBTEX' }],
+      year: '2025',
+      title: 'GeoPix: A multimodal large language model for pixel-level image understanding in remote sensing',
+      authors: 'R. Ou, Y. Hu, F. Zhang, J. Chen, Y. Liu',
+      venue: 'IEEE Geoscience and Remote Sensing Magazine, pp. 2–16',
+      links: [
+        { label: 'arXiv', href: 'https://arxiv.org/pdf/2501.06828' },
+        { label: 'IEEE', href: 'https://ieeexplore.ieee.org/document/10994415' },
+        { label: 'Code', href: 'https://github.com/Norman-Ou/GeoPix' },
+      ],
     },
     {
       year: '2025',
