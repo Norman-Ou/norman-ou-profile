@@ -4,11 +4,14 @@
 
 ## 特性
 
-- **双主题**：`潮线 Tide`（淡色，默认）/ `深流 Deep`（深色），右上角切换
+- **双主题**：`潮线 Tide`（冷瓷白，默认）/ `深流 Deep`（钢蓝），右上角切换
 - **中英双语**：`中 / EN`，文案可不同、排版一致
+- **整页吸附**：每个板块占满一屏，温和 scroll-snap（也能自由滑动），顶栏固定
+- **右侧圆点导航**：6 个圆点对应各板块，滚动高亮当前所在、点击跳转
+- **黄昏 / 月色氛围**：Hero 顶部暖阳/冷月光晕 + 海平线 + 波浪（Tide 暖、Deep 冷）
 - **照片占位框**：点击或拖拽上传，自动压缩为 WebP 存入 `localStorage`（不会上传到服务器）
 - 主题 / 语言 / 照片选择记忆在浏览器本地
-- 响应式布局、`prefers-reduced-motion` 友好、海洋波纹分隔器
+- 响应式布局、`prefers-reduced-motion` 友好（关闭动画与吸附）
 
 ## 本地开发
 
@@ -28,7 +31,7 @@ npm run start
 
 所有文案与列表集中在 **`lib/content.ts`**（`zh` / `en` 两份）。替换其中的占位论文、项目、随笔、联系方式即可——保持字段结构不变，版式会自动一致。
 
-- 配色 / 主题变量：`app/globals.css` 中的 `.root[data-theme="A"]`（深流）与 `.root[data-theme="B"]`（潮线）
+- 配色 / 主题变量：`app/globals.css` 中的 `.root[data-theme="A"]`（深流·钢蓝）与 `.root[data-theme="B"]`（潮线·冷瓷白）
 - 页面结构与交互：`components/Home.tsx`
 - 站点元信息 / 字体：`app/layout.tsx`
 
@@ -73,4 +76,6 @@ vercel --prod   # 生产部署
 
 ## 设计来源
 
-实现自 Claude Design 导出的设计稿 `个人主页.dc.html`（潮线为默认主题，仅保留 Deep / Tide 两套主题与中英切换）。
+实现自 Claude Design 导出的设计稿 `个人主页.dc.html`：冷瓷白「潮线」为默认主题、钢蓝「深流」为深色，整页吸附 + 右侧圆点导航 + 黄昏/月色 Hero 氛围。
+
+> 内容容器宽度沿用了你之前要求的「页面宽度 80%」（上限 1600px，手机端满宽）；设计稿原始宽度为 1200/920，若想完全照搬把 `app/globals.css` 里 `.header-inner / .hero-inner / .main` 的 `width: 80%; max-width: 1600px` 改回即可。

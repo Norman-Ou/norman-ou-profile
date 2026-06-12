@@ -8,6 +8,9 @@ const LANG_KEY = 'hp-lang';
 const PHOTO_KEY = 'hp-photo';
 const MAX_DIM = 1200;
 
+const SECTION_IDS = ['top', 'inquiries', 'pubs', 'projects', 'blog', 'contact'] as const;
+type SectionId = (typeof SECTION_IDS)[number];
+
 /**
  * Re-encode a dropped image through a canvas so localStorage carries a small,
  * retina-sharp WebP instead of the raw multi-MB upload. Falls back to a plain
@@ -63,23 +66,30 @@ function PhotoIcon() {
   );
 }
 
-function Wave() {
+/** Golden-hour / moonlit ambience layered behind the hero. */
+function HeroMood() {
   return (
-    <svg viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" className="wave">
-      <path
-        d="M0 22 Q 75 8 150 22 T 300 22 T 450 22 T 600 22 T 750 22 T 900 22 T 1050 22 T 1200 22"
-        fill="none"
-        stroke="var(--accent)"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M0 30 Q 75 16 150 30 T 300 30 T 450 30 T 600 30 T 750 30 T 900 30 T 1050 30 T 1200 30"
-        fill="none"
-        stroke="var(--accent)"
-        strokeWidth="1"
-        opacity="0.5"
-      />
-    </svg>
+    <div className="hero-mood" aria-hidden="true">
+      <div className="hero-sky" />
+      <div className="hero-orb" />
+      <div className="hero-sea" />
+      <div className="hero-horizon" />
+      <svg className="hero-waves" viewBox="0 0 1200 80" preserveAspectRatio="none">
+        <path
+          d="M0 30 Q 75 18 150 30 T 300 30 T 450 30 T 600 30 T 750 30 T 900 30 T 1050 30 T 1200 30"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="1.4"
+        />
+        <path
+          d="M0 52 Q 75 40 150 52 T 300 52 T 450 52 T 600 52 T 750 52 T 900 52 T 1050 52 T 1200 52"
+          fill="none"
+          stroke="var(--warm)"
+          strokeWidth="1.1"
+          opacity="0.6"
+        />
+      </svg>
+    </div>
   );
 }
 
@@ -90,6 +100,7 @@ export default function Home() {
   const [lang, setLang] = useState<LangKey>('zh');
   const [photo, setPhoto] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [active, setActive] = useState<SectionId>('top');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -106,12 +117,40 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    document.body.style.background = theme === 'A' ? '#0a2733' : '#f5f0e4';
+    document.body.style.background = theme === 'A' ? '#16222e' : '#eef1f1';
   }, [theme]);
 
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
+
+  // Track the section nearest the viewport centre and light its dot.
+  useEffect(() => {
+    const compute = () => {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const mid = y + window.innerHeight / 2;
+      let best: SectionId = SECTION_IDS[0];
+      let bestD = Infinity;
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const center = el.getBoundingClientRect().top + y + el.offsetHeight / 2;
+        const d = Math.abs(center - mid);
+        if (d < bestD) {
+          bestD = d;
+          best = id;
+        }
+      }
+      setActive((prev) => (prev === best ? prev : best));
+    };
+    compute();
+    window.addEventListener('scroll', compute, { passive: true });
+    window.addEventListener('resize', compute);
+    return () => {
+      window.removeEventListener('scroll', compute);
+      window.removeEventListener('resize', compute);
+    };
+  }, []);
 
   const applyTheme = (t: ThemeKey) => {
     setTheme(t);
@@ -157,9 +196,17 @@ export default function Home() {
   };
 
   const c = CONTENT[lang];
+  const navLabels: Record<SectionId, string> = {
+    top: c.nav.home,
+    inquiries: c.nav.about,
+    pubs: c.nav.pubs,
+    projects: c.nav.projects,
+    blog: c.nav.blog,
+    contact: c.nav.contact,
+  };
 
   return (
-    <div className="root" data-theme={theme}>
+    <div className="root" data-theme={theme} data-scroll-root>
       <div className="bg-layers" aria-hidden="true">
         <div className="caustics" />
         <div className="sheen" />
@@ -202,8 +249,25 @@ export default function Home() {
         </div>
       </header>
 
+      {/* ===== RIGHT-SIDE CIRCLE NAV ===== */}
+      <nav className="dot-nav" aria-label="sections">
+        {SECTION_IDS.map((id) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            title={navLabels[id]}
+            className={`dot-nav-item${active === id ? ' active' : ''}`}
+            aria-current={active === id ? 'true' : undefined}
+          >
+            <span className="dot-nav-label">{navLabels[id]}</span>
+            <span className="dot-nav-dot" />
+          </a>
+        ))}
+      </nav>
+
       {/* ===== FULL-PAGE PERSONAL INFO ===== */}
       <section id="top" className="hero">
+        <HeroMood />
         <div className="hero-inner">
           <div className="photo-wrap">
             <div className="corner-tl" />
@@ -287,9 +351,11 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="focus-card">
-              <div className="focus-bar" />
-              <div className="focus-label">{c.focus.label}</div>
+            <div className="focus-box">
+              <div className="focus-label">
+                <span className="focus-line" />
+                {c.focus.label}
+              </div>
               <div className="focus-body">
                 <div className="focus-title">{c.focus.title}</div>
                 <div className="focus-sub">{c.focus.sub}</div>
@@ -301,7 +367,7 @@ export default function Home() {
 
       <main className="main">
         {/* ===== 01 INQUIRIES ===== */}
-        <section id="inquiries" className="section">
+        <section id="inquiries" className="snap-section">
           <div className="sec-head">
             <span className="sec-num">01</span>
             <h2 className="sec-title">{c.inqTitle}</h2>
@@ -318,10 +384,8 @@ export default function Home() {
           </div>
         </section>
 
-        <Wave />
-
         {/* ===== 02 PUBLICATIONS ===== */}
-        <section id="pubs" className="section">
+        <section id="pubs" className="snap-section">
           <div className="sec-head">
             <span className="sec-num">02</span>
             <h2 className="sec-title">{c.pubTitle}</h2>
@@ -349,7 +413,7 @@ export default function Home() {
         </section>
 
         {/* ===== 03 PROJECTS ===== */}
-        <section id="projects" className="section">
+        <section id="projects" className="snap-section">
           <div className="sec-head sec-head--lg">
             <span className="sec-num">03</span>
             <h2 className="sec-title">{c.projTitle}</h2>
@@ -374,10 +438,8 @@ export default function Home() {
           </div>
         </section>
 
-        <Wave />
-
         {/* ===== 04 BLOG ===== */}
-        <section id="blog" className="section">
+        <section id="blog" className="snap-section">
           <div className="sec-head sec-head--lg">
             <span className="sec-num">04</span>
             <h2 className="sec-title">{c.blogTitle}</h2>
@@ -397,24 +459,25 @@ export default function Home() {
         </section>
 
         {/* ===== 05 CONTACT ===== */}
-        <section id="contact" className="contact">
-          <div className="sec-head sec-head--sm">
-            <span className="sec-num">05</span>
-            <h2 className="sec-title">{c.contactTitle}</h2>
+        <section id="contact" className="snap-section">
+          <div className="contact-card">
+            <div className="sec-head sec-head--sm">
+              <span className="sec-num">05</span>
+              <h2 className="sec-title">{c.contactTitle}</h2>
+            </div>
+            <p className="contact-body">{c.contactBody}</p>
+            <div className="link-list">
+              {c.links.map((lk) => (
+                <a className="link-row" href={lk.href} key={lk.label}>
+                  <span className="link-label">{lk.label}</span>
+                  <span className="link-value">{lk.value}</span>
+                  <span className="link-ext">↗</span>
+                </a>
+              ))}
+            </div>
           </div>
-          <p className="contact-body">{c.contactBody}</p>
-          <div className="link-list">
-            {c.links.map((lk) => (
-              <a className="link-row" href={lk.href} key={lk.label}>
-                <span className="link-label">{lk.label}</span>
-                <span className="link-value">{lk.value}</span>
-                <span className="link-ext">↗</span>
-              </a>
-            ))}
-          </div>
+          <footer className="site-footer">{c.footer}</footer>
         </section>
-
-        <footer className="site-footer">{c.footer}</footer>
       </main>
     </div>
   );
