@@ -1,14 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CONTENT, type LangKey, type ThemeKey } from '@/lib/content';
+import { CONTENT, type LangKey, type ThemeKey, type Version } from '@/lib/content';
 import { SCENE_ART } from '@/lib/sceneArt';
 
-const THEME_KEY = 'hp-theme';
 const LANG_KEY = 'hp-lang';
 
-/** Fixed hero photo served from public/. Replace the file to change it. */
-const HERO_PHOTO = '/avatar.jpg';
+/** Per-version hero photo, served from public/ (work → HR, school → faculty). */
+const HERO_PHOTO: Record<Version, string> = {
+  work: '/work_avatar.jpg',
+  school: '/school_avatar.jpg',
+};
 
 const SECTION_IDS = ['top', 'inquiries', 'pubs', 'projects', 'blog', 'contact'] as const;
 type SectionId = (typeof SECTION_IDS)[number];
@@ -40,10 +42,11 @@ function HeroMood() {
   );
 }
 
-export default function Home() {
-  // Server + first client render use the defaults (Tide / EN) so hydration
-  // matches; stored preferences are applied right after mount.
-  const [theme, setTheme] = useState<ThemeKey>('B');
+export default function Home({ version }: { version: Version }) {
+  // Theme is decided by the URL version (work → Deep, school → Tide) and known
+  // at render time, so the first paint is already correct. Language is
+  // independent and remembered in localStorage.
+  const theme: ThemeKey = version === 'work' ? 'A' : 'B';
   const [lang, setLang] = useState<LangKey>('en');
   const [active, setActive] = useState<SectionId>('top');
   // Opening animation overlay ("Ruizhe" writes itself), dismissed after a beat.
@@ -52,8 +55,6 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const t = localStorage.getItem(THEME_KEY);
-      if (t === 'A' || t === 'B') setTheme(t);
       const l = localStorage.getItem(LANG_KEY);
       if (l === 'zh' || l === 'en') setLang(l);
     } catch {
@@ -131,15 +132,6 @@ export default function Home() {
     };
   }, []);
 
-  const applyTheme = (t: ThemeKey) => {
-    setTheme(t);
-    try {
-      localStorage.setItem(THEME_KEY, t);
-    } catch {
-      /* ignore */
-    }
-  };
-
   const applyLang = (l: LangKey) => {
     setLang(l);
     try {
@@ -150,6 +142,7 @@ export default function Home() {
   };
 
   const c = CONTENT[lang];
+  const focus = c.focus[version];
   const navLabels: Record<SectionId, string> = {
     top: c.nav.home,
     inquiries: c.nav.about,
@@ -193,14 +186,6 @@ export default function Home() {
           </nav>
           <div className="v-divider" />
           <div className="tab-group">
-            <button className={`tab${theme === 'A' ? ' active' : ''}`} onClick={() => applyTheme('A')}>
-              {c.tA}
-            </button>
-            <button className={`tab${theme === 'B' ? ' active' : ''}`} onClick={() => applyTheme('B')}>
-              {c.tB}
-            </button>
-          </div>
-          <div className="tab-group">
             <button className={`tab${lang === 'zh' ? ' active' : ''}`} onClick={() => applyLang('zh')}>
               中
             </button>
@@ -235,7 +220,7 @@ export default function Home() {
             <div className="corner-tl" />
             <div className="corner-br" />
             <div className="photo-frame">
-              <img className="photo-img" src={HERO_PHOTO} alt={c.heroLine1} />
+              <img className="photo-img" src={HERO_PHOTO[version]} alt={c.heroLine1} />
             </div>
           </div>
 
@@ -262,11 +247,11 @@ export default function Home() {
             <div className="focus-box">
               <div className="focus-label">
                 <span className="focus-line" />
-                {c.focus.label}
+                {focus.label}
               </div>
               <div className="focus-body">
-                <div className="focus-title">{c.focus.title}</div>
-                <div className="focus-sub">{c.focus.sub}</div>
+                <div className="focus-title">{focus.title}</div>
+                <div className="focus-sub">{focus.sub}</div>
               </div>
             </div>
           </div>

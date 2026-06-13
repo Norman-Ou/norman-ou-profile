@@ -254,7 +254,9 @@ body {
   opacity: 0.4; border-radius: 0 0 8px 0; pointer-events: none;
 }
 .photo-frame {
-  position: relative; width: 100%; height: clamp(420px, 64vh, 620px);
+  /* Fixed portrait ratio (matches the 725×1024 avatars) so both versions
+     display identically; height derives from the column width. */
+  position: relative; width: 100%; aspect-ratio: 725 / 1024;
   border-radius: 6px; overflow: hidden; box-shadow: var(--shadow);
 }
 .photo-img {

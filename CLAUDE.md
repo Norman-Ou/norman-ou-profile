@@ -11,11 +11,12 @@
 - `npm run dev` → http://localhost:3000 ｜ `npm run build` ｜ `npm run lint` ｜ 类型检查 `npx tsc --noEmit`
 
 ## 文件地图（几乎所有逻辑都在这几个文件）
-- `components/Home.tsx` —— 整个单页 UI（client component）：Hero + 5 个 `.scene` 板块 + 顶栏 + 右侧圆点导航 + 主题/语言切换 + 照片上传。**绝大多数改动在这里。**
-- `app/globals.css` —— **所有样式**，约 450 行，用 CSS 变量做主题。改样式只动这里。
+- `components/Home.tsx` —— 整个单页 UI（client component），接收 `version: 'work'|'school'` prop：开屏动画 + Hero + 5 个 `.scene` 板块 + 顶栏 + 右侧圆点导航 + 语言切换 + 固定头像。**绝大多数改动在这里。**
+- `app/globals.css` —— **所有样式**，用 CSS 变量做主题。改样式只动这里。
 - `lib/content.ts` —— **所有中英文案与列表**，导出 `CONTENT = { zh, en }`。改文字只动这里，别在组件里硬编码文案。
 - `lib/sceneArt.ts` —— 各板块的装饰性 SVG 背景（小王子场景），导出 `SCENE_ART`，经 `dangerouslySetInnerHTML` 注入。
-- `app/page.tsx` 渲染 `<Home/>`；`app/layout.tsx` 站点元信息 + 字体（`<link>` 引入）。
+- 路由：`app/page.tsx`(=school 默认) / `app/work/page.tsx` / `app/school/page.tsx`，各自渲染 `<Home version=.../>`（静态预渲染 `/`、`/work`、`/school`）。`app/layout.tsx` 站点元信息 + 字体（Google `<link>` + 本地 `@font-face`）。
+- `public/`：`work_avatar.jpg` / `school_avatar.jpg`（均 725×1024，~200KB）、`fonts/kaushan-script-latin.woff2`（自托管签名体）。
 - `README.md` 是面向人的部署/使用文档（注：其「温和 snap / 未注明默认语言」的描述略旧，以本文件与代码为准）。
 
 ## 板块 & 整页吸附（关键架构 + 易错点）
@@ -31,12 +32,18 @@
 - `active` 同时驱动**右侧圆点导航**和**顶栏导航高亮**（CSS `.nav a.active`）。
 - **滚动不改 URL**：active 逻辑只调 `setActive`，不碰 `location/history`。URL 的 `#hash` 只在**点击**顶栏/圆点（`<a href="#id">` 锚点）时由浏览器默认行为改变。
 
-## 主题 / 语言 / 布局
-- 主题：`.root` 上的 `data-theme="A"|"B"`，A=深流(钢蓝)、B=潮线(冷瓷白)。**默认 B (Tide)**。调色在 globals.css 的 `.root[data-theme=...]` 变量。
-- 语言：`lang` = `'en'|'zh'`，**默认 'en'**。
-- 持久化（localStorage）：`hp-theme` / `hp-lang` / `hp-photo`（上传的照片压成 WebP 存本地，不上服务器）。默认值仅在本地无记录时生效——本机调试若看不到默认 EN/Tide，多半是 localStorage 里存了旧值。
-- 内容列宽：顶栏 `.header-inner`、Hero `.hero-inner`、板块 `.scene-inner` 统一 `width: 80%; max-width: 1600px` + 侧边 padding `clamp(18px,4vw,40px)`，三者左右对齐。移动端（≤768px）→ `width: 100%`。
-- `.scene` 内容**顶部对齐**（`align-items: flex-start`），装饰（小王子+玫瑰）在底部 padding 带里。
+## 版本 / 受众（URL 路由）+ 主题 / 语言 / 布局
+- **版本由 URL 路径决定（不是界面按钮）**：`/work`=工作版(给 HR)、`/school` 与裸 `/`=学校版(默认)。版本经 `version` prop 传入 `Home`，**渲染时即已知**(首屏无闪烁、无客户端 URL 解析)。
+- 一个版本**同时决定三样**：**主题**(work→`A`深流 / school→`B`潮线)、**头像**(`HERO_PHOTO[version]`)、**RESEARCH FOCUS**(`c.focus[version]`；`focus` 在 content.ts 里按 `{ work, school }` 分，且各有 zh/en)。
+- 主题 = `.root` 的 `data-theme="A"|"B"`(A 钢蓝 / B 冷瓷白)，**由 version 派生、无切换按钮**；调色在 globals.css 的 `.root[data-theme=...]` 变量。
+- 语言：`lang`=`'en'|'zh'`，**默认 'en'**，顶栏 中/EN 可切换并记忆在 `localStorage['hp-lang']`（**唯一持久化项**）。语言与版本相互独立。
+- 头像：每版本一张固定图(无上传)，相框 `.photo-frame` 锁定 `aspect-ratio: 725/1024`，`.photo-img` 用 `object-fit: cover`。
+- 内容列宽：`.header-inner`/`.hero-inner`/`.scene-inner` 统一 `width:80%; max-width:1600px` + 侧 padding `clamp(18px,4vw,40px)`，三者左右对齐；移动端(≤768px)→100%。
+- `.scene` 内容**顶部对齐**(`align-items: flex-start`)，装饰(小王子+玫瑰)在底部 padding 带里。
+
+## 开屏动画
+- 进站全屏 overlay `.intro`：签名体「Ruizhe」用 `clip-path` 从左到右"写"出 + 漂浮光晕，停留后淡出揭页。约 3.3s，**任意交互或超时跳过**，`prefers-reduced-motion` 不显示。
+- 字体 **Kaushan Script 自托管**：`public/fonts/kaushan-script-latin.woff2` + globals.css `@font-face` + layout.tsx `<link rel=preload>`（不实时请求 Google）。其余正文字体仍走 Google `<link>`。
 
 ## 约定
 - 文案改 `lib/content.ts`；**zh 与 en 的 `Content` 结构必须保持一致**（字段一一对应）。

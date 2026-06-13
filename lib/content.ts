@@ -7,6 +7,8 @@
 
 export type ThemeKey = 'A' | 'B';
 export type LangKey = 'zh' | 'en';
+/** Audience version, selected by URL path (/work, /school). */
+export type Version = 'work' | 'school';
 
 export interface EduItem {
   label: string;
@@ -61,9 +63,6 @@ export interface NavLabels {
 }
 
 export interface Content {
-  /** theme toggle labels: tA = Deep, tB = Tide */
-  tA: string;
-  tB: string;
   nav: NavLabels;
   /** top-left wordmark: main name + italic accent word (logoAlt) */
   logoMain: string;
@@ -75,7 +74,8 @@ export interface Content {
   inqTitle: string;
   inqNote: string;
   inquiries: Inquiry[];
-  focus: Focus;
+  /** RESEARCH FOCUS varies by audience version */
+  focus: { work: Focus; school: Focus };
   pubTitle: string;
   pubNote: string;
   pubs: Publication[];
@@ -90,11 +90,9 @@ export interface Content {
 }
 
 const zh: Content = {
-  tA: '深流',
-  tB: '潮线',
   nav: { home: '首页', about: '探索', pubs: '论文', projects: '项目', blog: '随笔', contact: '联系' },
   logoMain: '区睿哲',
-  logoAlt: 'Ruizhe',
+  logoAlt: '- Ruizhe',
   heroLine1: '区睿哲 — Ruizhe',
   heroLine2: '',
   heroIntro:
@@ -128,9 +126,17 @@ const zh: Content = {
     { no: '04', title: '从像素到决策', desc: '让模型输出成为科学与治理可用的结论。' },
   ],
   focus: {
-    label: '研究方向',
-    title: 'AI for Science · 城市视觉智能',
-    sub: '人工智能不仅是技术更是工具， 是我们去探索世界的工具，Look Deeply with AI',
+    school: {
+      label: '研究方向',
+      title: 'AI for Science · 城市视觉智能',
+      sub: '人工智能不仅是技术更是工具， 是我们去探索世界的工具，Look Deeply with AI',
+    },
+    // 占位 — 替换为工作向（面向 HR）的内容
+    work: {
+      label: '工作方向',
+      title: 'AI for Science · 城市视觉智能',
+      sub: '人工智能不仅是技术更是工具， 是我们去探索世界的工具，Look Deeply with AI',
+    },
   },
   pubTitle: '论文发表',
   pubNote: '占位内容 — 替换为你的真实论文',
@@ -186,11 +192,9 @@ const zh: Content = {
 };
 
 const en: Content = {
-  tA: 'Deep',
-  tB: 'Tide',
   nav: { home: 'Home', about: 'Inquiries', pubs: 'Publications', projects: 'Projects', blog: 'Blog', contact: 'Contact' },
-  logoMain: 'Ruizhe',
-  logoAlt: 'Richie',
+  logoMain: 'OU Ruizhe',
+  logoAlt: '- Richie',
   heroLine1: 'OU Ruizhe - Richie',
   heroLine2: '',
   heroIntro:
@@ -224,9 +228,17 @@ const en: Content = {
     { no: '04', title: 'From pixels to decisions', desc: 'Turning model outputs into usable science and policy.' },
   ],
   focus: {
-    label: 'RESEARCH FOCUS',
-    title: 'AI for Science · Urban Sensing',
-    sub: "AI has become a tool for discovery. I'm drawn to how AI can help us explore the world.",
+    school: {
+      label: 'RESEARCH FOCUS',
+      title: 'AI for Science · Urban Sensing',
+      sub: "AI has become a tool for discovery. I'm drawn to how AI can help us explore the world.",
+    },
+    // 占位 — 替换为工作向（面向 HR）的内容
+    work: {
+      label: 'FOCUS',
+      title: 'AI for Science · Urban Sensing',
+      sub: "AI has become a tool for discovery. I'm drawn to how AI can help us explore the world.",
+    },
   },
   pubTitle: 'Publications',
   pubNote: 'PLACEHOLDER — replace with your real papers',

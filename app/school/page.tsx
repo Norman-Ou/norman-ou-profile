@@ -1,6 +1,6 @@
 import Home from '@/components/Home';
 
-// Bare URL ("/") defaults to the school version (Tide).
+// /school — school / faculty version (Tide theme, school avatar, research-focus).
 export default function Page() {
   return <Home version="school" />;
 }
