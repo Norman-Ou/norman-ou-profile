@@ -65,6 +65,9 @@ export interface Content {
   tA: string;
   tB: string;
   nav: NavLabels;
+  /** top-left wordmark: main name + italic accent word (logoAlt) */
+  logoMain: string;
+  logoAlt: string;
   heroLine1: string;
   heroLine2: string;
   heroIntro: string;
@@ -90,6 +93,8 @@ const zh: Content = {
   tA: '深流',
   tB: '潮线',
   nav: { home: '首页', about: '探索', pubs: '论文', projects: '项目', blog: '随笔', contact: '联系' },
+  logoMain: '区睿哲',
+  logoAlt: 'Ruizhe',
   heroLine1: '区睿哲 — Ruizhe',
   heroLine2: '',
   heroIntro:
@@ -184,6 +189,8 @@ const en: Content = {
   tA: 'Deep',
   tB: 'Tide',
   nav: { home: 'Home', about: 'Inquiries', pubs: 'Publications', projects: 'Projects', blog: 'Blog', contact: 'Contact' },
+  logoMain: 'Ruizhe',
+  logoAlt: 'Richie',
   heroLine1: 'OU Ruizhe - Richie',
   heroLine2: '',
   heroIntro:

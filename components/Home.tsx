@@ -46,6 +46,9 @@ export default function Home() {
   const [theme, setTheme] = useState<ThemeKey>('B');
   const [lang, setLang] = useState<LangKey>('en');
   const [active, setActive] = useState<SectionId>('top');
+  // Opening animation overlay ("Ruizhe" writes itself), dismissed after a beat.
+  const [showIntro, setShowIntro] = useState(true);
+  const [introLeaving, setIntroLeaving] = useState(false);
 
   useEffect(() => {
     try {
@@ -56,6 +59,40 @@ export default function Home() {
     } catch {
       /* ignore unavailable storage */
     }
+  }, []);
+
+  // Opening animation: lock scroll, let "Ruizhe" write itself, then reveal the
+  // page — skip on any interaction or after a short hold; honour reduced-motion.
+  useEffect(() => {
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+    if (reduce) {
+      setShowIntro(false);
+      return;
+    }
+    const docEl = document.documentElement;
+    docEl.style.overflow = 'hidden';
+    const ac = new AbortController();
+    let hold = 0;
+    let unmount = 0;
+    const leave = () => {
+      ac.abort();
+      window.clearTimeout(hold);
+      docEl.style.overflow = '';
+      setIntroLeaving(true);
+      unmount = window.setTimeout(() => setShowIntro(false), 700);
+    };
+    hold = window.setTimeout(leave, 2600);
+    const opts: AddEventListenerOptions = { passive: true, signal: ac.signal };
+    window.addEventListener('wheel', leave, opts);
+    window.addEventListener('touchstart', leave, opts);
+    window.addEventListener('keydown', leave, { signal: ac.signal });
+    window.addEventListener('click', leave, { signal: ac.signal });
+    return () => {
+      ac.abort();
+      window.clearTimeout(hold);
+      window.clearTimeout(unmount);
+      docEl.style.overflow = '';
+    };
   }, []);
 
   useEffect(() => {
@@ -124,6 +161,12 @@ export default function Home() {
 
   return (
     <div className="root" data-theme={theme} data-scroll-root>
+      {showIntro && (
+        <div className={`intro${introLeaving ? ' intro--leaving' : ''}`} aria-hidden="true">
+          <div className="intro-glow" />
+          <div className="intro-name">Ruizhe</div>
+        </div>
+      )}
       <div className="bg-layers" aria-hidden="true">
         <div className="caustics" />
         <div className="sheen" />
@@ -133,7 +176,7 @@ export default function Home() {
       <header className="site-header">
         <div className="header-inner">
           <a href="#top" className="logo">
-            区睿哲 <i>Richie</i>
+            {c.logoMain} <i>{c.logoAlt}</i>
           </a>
           <div className="header-spacer" />
           <nav className="nav">

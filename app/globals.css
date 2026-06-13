@@ -43,6 +43,39 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .caustics, .sheen, .scene-art * { animation: none !important; }
   html { scroll-behavior: auto; scroll-snap-type: none; }
+  .intro { display: none; }
+}
+
+/* ===== Opening animation — "Ruizhe" writes itself ========== */
+.intro {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; background: var(--bg);
+}
+.intro--leaving { animation: intro-out .7s cubic-bezier(.16, 1, .3, 1) forwards; }
+.intro-glow {
+  position: absolute; width: 62vmax; height: 62vmax; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--warm) 26%, transparent), transparent 64%);
+  filter: blur(46px);
+  animation: intro-glow-float 12s ease-in-out infinite alternate;
+}
+.intro-name {
+  position: relative;
+  font-family: 'Dancing Script', 'Spectral', cursive;
+  font-weight: 600; font-size: clamp(76px, 17vw, 220px); line-height: 1;
+  color: var(--warm); letter-spacing: .01em; white-space: nowrap;
+  filter: drop-shadow(0 0 26px color-mix(in oklab, var(--warm) 42%, transparent));
+  /* Reveal left→right, as if written. */
+  clip-path: inset(0 100% 0 0);
+  animation: intro-write 1.5s cubic-bezier(.16, 1, .3, 1) .25s forwards;
+}
+@keyframes intro-write { to { clip-path: inset(0 0 0 0); } }
+@keyframes intro-glow-float {
+  0%   { transform: translate(2rem, -1rem) scale(1); }
+  100% { transform: translate(-3rem, 2rem) scale(1.12); }
+}
+@keyframes intro-out {
+  to { opacity: 0; visibility: hidden; transform: scale(1.04); filter: blur(6px); }
 }
 
 /* ===== Root + theme tokens ================================= */
