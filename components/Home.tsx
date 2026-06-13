@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CONTENT, type LangKey, type ThemeKey } from '@/lib/content';
+import { SCENE_ART } from '@/lib/sceneArt';
 
 const THEME_KEY = 'hp-theme';
 const LANG_KEY = 'hp-lang';
@@ -94,10 +95,10 @@ function HeroMood() {
 }
 
 export default function Home() {
-  // Server + first client render use the defaults (Tide / 中) so hydration
+  // Server + first client render use the defaults (Tide / EN) so hydration
   // matches; stored preferences are applied right after mount.
   const [theme, setTheme] = useState<ThemeKey>('B');
-  const [lang, setLang] = useState<LangKey>('zh');
+  const [lang, setLang] = useState<LangKey>('en');
   const [photo, setPhoto] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [active, setActive] = useState<SectionId>('top');
@@ -220,14 +221,16 @@ export default function Home() {
           </a>
           <div className="header-spacer" />
           <nav className="nav">
-            <a href="#top" className="home">
-              {c.nav.home}
-            </a>
-            <a href="#inquiries">{c.nav.about}</a>
-            <a href="#pubs">{c.nav.pubs}</a>
-            <a href="#projects">{c.nav.projects}</a>
-            <a href="#blog">{c.nav.blog}</a>
-            <a href="#contact">{c.nav.contact}</a>
+            {SECTION_IDS.map((id) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                className={active === id ? 'active' : undefined}
+                aria-current={active === id ? 'true' : undefined}
+              >
+                {navLabels[id]}
+              </a>
+            ))}
           </nav>
           <div className="v-divider" />
           <div className="tab-group">
@@ -358,39 +361,53 @@ export default function Home() {
       </section>
 
       <main className="main">
-        {/* ===== 01 INQUIRIES ===== */}
-        <section id="inquiries" className="snap-section">
-          <div className="sec-head">
-            <span className="sec-num">01</span>
-            <h2 className="sec-title">{c.inqTitle}</h2>
-          </div>
-          <div className="sec-note">{c.inqNote}</div>
-          <div className="inq-grid">
-            {c.inquiries.map((iq) => (
-              <div className="inq-card" key={iq.no}>
-                <div className="inq-no">{iq.no}</div>
-                <h3 className="inq-title">{iq.title}</h3>
-                <p className="inq-desc">{iq.desc}</p>
-              </div>
-            ))}
+        {/* ===== 01 INQUIRIES · 看不见的大象 ===== */}
+        <section id="inquiries" className="scene scene--inquiries">
+          <div
+            className="scene-art"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: SCENE_ART.inquiries }}
+          />
+          <div className="scene-inner">
+            <div className="sec-head">
+              <span className="sec-num">01</span>
+              <h2 className="sec-title">{c.inqTitle}</h2>
+            </div>
+            <div className="sec-note">{c.inqNote}</div>
+            <div className="inq-grid">
+              {c.inquiries.map((iq) => (
+                <div className="inq-card" key={iq.no}>
+                  <div className="inq-no">{iq.no}</div>
+                  <h3 className="inq-title">{iq.title}</h3>
+                  <p className="inq-desc">{iq.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ===== 02 PUBLICATIONS ===== */}
-        <section id="pubs" className="snap-section">
-          <div className="sec-head">
-            <span className="sec-num">02</span>
-            <h2 className="sec-title">{c.pubTitle}</h2>
-          </div>
-          <div className="pub-note">{c.pubNote}</div>
-          <div className="pub-list">
-            {c.pubs.map((p, i) => (
-              <article className="pub-item" key={`${p.year}-${i}`}>
-                <div className="pub-year">{p.year}</div>
-                <div className="pub-body">
-                  <h3 className="pub-title">{p.title}</h3>
-                  <div className="pub-authors">{p.authors}</div>
-                  <div className="pub-venue">{p.venue}</div>
+        {/* ===== 02 PUBLICATIONS · 群星 ===== */}
+        <section id="pubs" className="scene scene--pubs">
+          <div
+            className="scene-art"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: SCENE_ART.pubs }}
+          />
+          <div className="scene-inner">
+            <div className="sec-head">
+              <span className="sec-num">02</span>
+              <h2 className="sec-title">{c.pubTitle}</h2>
+            </div>
+            <div className="pub-note">{c.pubNote}</div>
+            <div className="pub-list">
+              {c.pubs.map((p, i) => (
+                <article className="pub-item" key={`${p.year}-${i}`}>
+                  <div className="pub-year">{p.year}</div>
+                  <div className="pub-body">
+                    <h3 className="pub-title">{p.title}</h3>
+                    <div className="pub-authors">{p.authors}</div>
+                    <div className="pub-venue">{p.venue}</div>
+                  </div>
                   <div className="pub-links">
                     {p.links.map((l) => {
                       const ext = !!l.href && /^https?:/i.test(l.href);
@@ -407,77 +424,91 @@ export default function Home() {
                       );
                     })}
                   </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* ===== 03 PROJECTS ===== */}
-        <section id="projects" className="snap-section">
-          <div className="sec-head sec-head--lg">
-            <span className="sec-num">03</span>
-            <h2 className="sec-title">{c.projTitle}</h2>
-          </div>
-          <div className="proj-grid">
-            {c.projects.map((pr) => (
-              <article className="proj-card" key={pr.name}>
-                <div className="proj-head">
-                  <span className="proj-dot" />
-                  <h3 className="proj-name">{pr.name}</h3>
-                </div>
-                <p className="proj-desc">{pr.desc}</p>
-                <div className="proj-tags">
-                  {pr.tags.map((tg) => (
-                    <span className="proj-tag" key={tg}>
-                      {tg}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* ===== 04 BLOG ===== */}
-        <section id="blog" className="snap-section">
-          <div className="sec-head sec-head--lg">
-            <span className="sec-num">04</span>
-            <h2 className="sec-title">{c.blogTitle}</h2>
-          </div>
-          <div className="blog-list">
-            {c.posts.map((po, i) => (
-              <a className="post" href={po.href ?? '#'} key={`${po.date}-${i}`}>
-                <div className="post-date">{po.date}</div>
-                <div className="post-body">
-                  <h3 className="post-title">{po.title}</h3>
-                  <p className="post-excerpt">{po.excerpt}</p>
-                </div>
-                <span className="post-arrow">→</span>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        {/* ===== 05 CONTACT ===== */}
-        <section id="contact" className="snap-section">
-          <div className="contact-card">
-            <div className="sec-head sec-head--sm">
-              <span className="sec-num">05</span>
-              <h2 className="sec-title">{c.contactTitle}</h2>
+                </article>
+              ))}
             </div>
-            <p className="contact-body">{c.contactBody}</p>
-            <div className="link-list">
-              {c.links.map((lk) => (
-                <a className="link-row" href={lk.href} key={lk.label}>
-                  <span className="link-label">{lk.label}</span>
-                  <span className="link-value">{lk.value}</span>
-                  <span className="link-ext">↗</span>
+          </div>
+        </section>
+
+        {/* ===== 03 PROJECTS · 点灯人 ===== */}
+        <section id="projects" className="scene scene--projects">
+          <div
+            className="scene-art"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: SCENE_ART.projects }}
+          />
+          <div className="scene-inner">
+            <div className="sec-head sec-head--lg">
+              <span className="sec-num">03</span>
+              <h2 className="sec-title">{c.projTitle}</h2>
+            </div>
+            <div className="proj-grid">
+              {c.projects.map((pr) => (
+                <article className="proj-card" key={pr.name}>
+                  <div className="proj-head">
+                    <span className="proj-dot" />
+                    <h3 className="proj-name">{pr.name}</h3>
+                  </div>
+                  <p className="proj-desc">{pr.desc}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== 04 BLOG · 狐狸与麦田 ===== */}
+        <section id="blog" className="scene scene--blog">
+          <div
+            className="scene-art"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: SCENE_ART.blog }}
+          />
+          <div className="scene-inner">
+            <div className="sec-head sec-head--lg">
+              <span className="sec-num">04</span>
+              <h2 className="sec-title">{c.blogTitle}</h2>
+            </div>
+            <div className="blog-list">
+              {c.posts.map((po, i) => (
+                <a className="post" href={po.href ?? '#'} key={`${po.date}-${i}`}>
+                  <div className="post-date">{po.date}</div>
+                  <div className="post-body">
+                    <h3 className="post-title">{po.title}</h3>
+                    <p className="post-excerpt">{po.excerpt}</p>
+                  </div>
+                  <span className="post-arrow">→</span>
                 </a>
               ))}
             </div>
           </div>
-          <footer className="site-footer">{c.footer}</footer>
+        </section>
+
+        {/* ===== 05 CONTACT · 沙漠之井 ===== */}
+        <section id="contact" className="scene scene--contact">
+          <div
+            className="scene-art"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: SCENE_ART.contact }}
+          />
+          <div className="scene-inner">
+            <div className="contact-card">
+              <div className="sec-head sec-head--sm">
+                <span className="sec-num">05</span>
+                <h2 className="sec-title">{c.contactTitle}</h2>
+              </div>
+              <p className="contact-body">{c.contactBody}</p>
+              <div className="link-list">
+                {c.links.map((lk) => (
+                  <a className="link-row" href={lk.href} key={lk.label}>
+                    <span className="link-label">{lk.label}</span>
+                    <span className="link-value">{lk.value}</span>
+                    <span className="link-ext">↗</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+            <footer className="site-footer">{c.footer}</footer>
+          </div>
         </section>
       </main>
     </div>

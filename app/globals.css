@@ -28,8 +28,20 @@ body {
   0%   { transform: translateX(-6%); opacity: .5; }
   100% { transform: translateX(6%);  opacity: .9; }
 }
+@keyframes glowPulse {
+  0%   { opacity: .5; transform: scale(1); }
+  100% { opacity: .85; transform: scale(1.07); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: .3; }
+  50%      { opacity: .9; }
+}
+@keyframes rosePulse {
+  0%   { opacity: .6; }
+  100% { opacity: 1; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .caustics, .sheen { animation: none; }
+  .caustics, .sheen, .scene-art * { animation: none !important; }
   html { scroll-behavior: auto; scroll-snap-type: none; }
 }
 
@@ -38,7 +50,11 @@ body {
   color: var(--text);
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
+  /* `clip` hides horizontal overflow WITHOUT turning .root into a scroll
+     container — `overflow-x: hidden` would force overflow-y to compute as
+     `auto`, which captures the page snap points and breaks the full-page
+     scroll-snap defined on <html>. */
+  overflow-x: clip;
   padding-top: 58px; /* reserve space for the fixed header */
   transition: background .5s ease, color .4s ease;
   font-family: 'IBM Plex Sans', 'Noto Sans SC', sans-serif;
@@ -110,8 +126,8 @@ body {
   text-transform: uppercase; white-space: nowrap; min-width: 0; overflow-x: auto; flex: 0 1 auto;
 }
 .nav a { color: var(--muted); text-decoration: none; transition: color .18s ease; }
-.nav a.home { color: var(--text); }
 .nav a:hover { color: var(--accent); }
+.nav a.active { color: var(--accent); }
 .v-divider { width: 1px; height: 18px; background: var(--border); flex: 0 0 auto; }
 .tab-group { display: flex; gap: 3px; flex: 0 0 auto; }
 .tab {
@@ -147,7 +163,7 @@ body {
 /* ===== Hero (full-page personal info) ===================== */
 .hero {
   position: relative; z-index: 1; width: 100%; overflow: hidden;
-  scroll-snap-align: start;
+  scroll-snap-align: start; scroll-snap-stop: always;
 }
 .hero-mood { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .hero-sky {
@@ -249,7 +265,7 @@ body {
 .edu-label {
   flex: 0 0 clamp(72px, 9vw, 104px); margin-left: -10px;
   font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--accent); padding-top: 5px;
+  color: var(--accent); padding-top: 5px;
 }
 .edu-body { flex: 1 1 auto; }
 .edu-title {
@@ -279,17 +295,58 @@ body {
 }
 .focus-sub { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
 
-/* ===== Main + full-page snap sections ===================== */
-.main {
+/* ===== Main + full-bleed Little-Prince scene pages ========= */
+/* Each section is its own full-viewport "page": a mood wash drawn
+   from the section's --m hue + a scene-specific light shape (in
+   .scene-art), with the reading column floating in a centered 920px
+   band. The generous bottom padding reserves the lower band for the
+   prince + rose so they never overlap the content. */
+.main { position: relative; z-index: 1; }
+.scene {
+  /* Fit the area *below* the fixed 58px header: when a section snaps to the
+     top its start sits 58px down (html{scroll-padding-top}), so a full 100vh
+     section would hang 58px below the fold and never fit one screen. */
+  min-height: calc(100vh - 58px);
+  display: flex; align-items: flex-start;
+  scroll-snap-align: start; scroll-snap-stop: always;
+  position: relative; overflow: hidden; box-sizing: border-box;
+  /* The fixed header is already cleared by html{scroll-padding-top:58px} when
+     a section snaps to the top, so the top padding only needs a little
+     breathing room (no redundant +58px). Content is top-aligned so the heading
+     sits a short, consistent distance below the top bar. */
+  padding: clamp(28px, 5vh, 56px) 0 clamp(120px, 17vh, 210px);
+}
+.scene-art { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+/* Same column geometry as the header / hero (.header-inner, .hero-inner):
+   80% wide, capped at 1600px, with matching side padding so every section's
+   content lines up with HOME and the top bar. */
+.scene-inner {
   position: relative; z-index: 1;
   width: 80%; max-width: 1600px; margin: 0 auto;
-  padding: 0 clamp(18px, 5vw, 40px);
+  padding: 0 clamp(18px, 4vw, 40px);
 }
-.snap-section {
-  min-height: calc(100vh - 58px);
-  display: flex; flex-direction: column; justify-content: center;
-  scroll-snap-align: start; padding: clamp(36px, 5vh, 64px) 0;
+
+.scene--inquiries {
+  --m: oklch(0.70 0.10 200);
+  background: linear-gradient(177deg, color-mix(in oklab, var(--bg) 94%, var(--m)) 0%, var(--bg) 42%, color-mix(in oklab, var(--bg) 91%, var(--m)) 100%);
 }
+.scene--pubs {
+  --m: oklch(0.60 0.10 264);
+  background: radial-gradient(135% 82% at 50% 58%, color-mix(in oklab, var(--bg) 87%, var(--m)) 0%, color-mix(in oklab, var(--bg) 96%, var(--m)) 48%, var(--bg) 82%);
+}
+.scene--projects {
+  --m: oklch(0.77 0.12 72);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 38%, color-mix(in oklab, var(--bg) 87%, var(--m)) 100%);
+}
+.scene--blog {
+  --m: oklch(0.66 0.085 246);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 36%, color-mix(in oklab, var(--bg) 84%, var(--m)) 100%);
+}
+.scene--contact {
+  --m: oklch(0.70 0.02 236);
+  background: var(--bg);
+}
+
 .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
 .sec-head--lg { margin-bottom: 26px; }
 .sec-head--sm { margin-bottom: 16px; }
@@ -337,12 +394,18 @@ body {
 .pub-authors { font-size: 14px; color: var(--muted); margin-bottom: 4px; }
 .pub-venue {
   font-style: italic; font-family: 'Spectral', serif; font-size: 14.5px;
-  color: var(--warm); margin-bottom: 12px;
+  color: var(--warm); margin-bottom: 0;
 }
-.pub-links { display: flex; gap: 8px; flex-wrap: wrap; }
+/* Link chips stacked vertically on the right edge of each card. flex:0 0 auto
+   sizes the column to the widest chip; align-items:stretch makes them equal
+   width for a tidy button column. */
+.pub-links {
+  display: flex; flex-direction: column; gap: 8px;
+  flex: 0 0 auto; align-items: stretch;
+}
 .pub-link {
   font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.05em;
-  color: var(--accent); text-decoration: none; padding: 3px 10px;
+  color: var(--accent); text-decoration: none; padding: 4px 12px; text-align: center;
   border: 1px solid var(--border); border-radius: 6px; transition: background .18s ease, border-color .18s ease;
 }
 .pub-link:hover { background: var(--surface2); border-color: var(--accent); }
@@ -359,11 +422,6 @@ body {
 .proj-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--warm); flex: 0 0 auto; }
 .proj-name { font-family: 'Spectral', 'Noto Serif SC', serif; font-weight: 600; font-size: 18px; margin: 0; color: var(--text); }
 .proj-desc { font-size: 14.5px; line-height: 1.6; color: var(--muted); margin: 0; flex: 1; }
-.proj-tags { display: flex; gap: 7px; flex-wrap: wrap; }
-.proj-tag {
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--faint);
-  padding: 3px 9px; border: 1px solid var(--border); border-radius: 5px;
-}
 
 /* ===== 04 Blog ============================================ */
 .blog-list { display: flex; flex-direction: column; }
@@ -409,6 +467,6 @@ body {
 
 /* ===== Responsive ========================================= */
 @media (max-width: 768px) {
-  .header-inner, .hero-inner, .main { width: 100%; }
+  .header-inner, .hero-inner, .main, .scene-inner { width: 100%; }
   .dot-nav-label { display: none; }
 }

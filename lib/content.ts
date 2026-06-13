@@ -39,7 +39,6 @@ export interface Publication {
 export interface Project {
   name: string;
   desc: string;
-  tags: string[];
 }
 export interface Post {
   date: string;
@@ -98,24 +97,24 @@ const zh: Content = {
   heroLine1: '区睿哲 — Ruizhe',
   heroLine2: '',
   heroIntro:
-    '地球每天都在用光与雷达记录自己。我着迷于一个问题——AI 能否让我们把它读得更清楚，而不是更模糊。',
+    '\"We\'re all boys before tonight\"， 怀着炙热而明亮的心，探索无限可能。',
   eduStack: [
     {
-      label: '现在',
-      title: '博士 · 遥感科学与技术',
-      sub: '北京大学 · 2026 秋入学',
+      label: '博士',
+      title: '北京大学',
+      sub: '遥感科学与技术· 2026 - 至今',
       color: 'var(--pku)',
     },
     {
       label: '硕士',
-      title: '工学硕士 · 人工智能',
-      sub: '北京邮电大学 · 导师: 张闯 · 2023 - 2026',
+      title: '北京邮电大学',
+      sub: '人工智能 · 导师 张闯 · 2023 - 2026',
       color: 'var(--accent)',
     },
     {
       label: '本科',
-      title: '工学学士 · 电信工程与管理',
-      sub: '北京邮电大学 x QMUL · 优秀毕业生 · 2019 - 2023',
+      title: '北京邮电大学 x Queen Mary University of London',
+      sub: '优秀毕业生 一等学位 · 2019 - 2023',
       color: 'var(--bupt)',
     },
   ],
@@ -129,21 +128,20 @@ const zh: Content = {
   ],
   focus: {
     label: '研究方向',
-    title: 'AI for Science · 遥感',
-    sub: '把机器学习带进遥感与地球观测——让方法与系统把原始信号转化为可用的科学结论。',
+    title: 'AI for Science · 城市视觉智能',
+    sub: '人工智能不仅是技术更是工具， 是我们去探索世界的工具，Look Deeply with AI',
   },
   pubTitle: '论文发表',
   pubNote: '占位内容 — 替换为你的真实论文',
   pubs: [
     {
       year: '2025',
-      title: 'GeoPix: A multimodal large language model for pixel-level image understanding in remote sensing',
-      authors: 'R. Ou, Y. Hu, F. Zhang, J. Chen, Y. Liu',
+      title: 'GeoPix: A Multimodal Large Language Model for Pixel-level Image Understanding in Remote Sensing',
+      authors: 'Ruizhe Ou, Yuan Hu, Fang Zhang, Jiaxin Chen, Yu Liu',
       venue: 'IEEE Geoscience and Remote Sensing Magazine, pp. 2–16',
       links: [
-        { label: 'arXiv', href: 'https://arxiv.org/abs/2501.06828' },
-        { label: 'IEEE', href: 'https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10994415' },
-        { label: 'Code', href: 'https://github.com/Norman-Ou/GeoPix' },
+        { label: 'PDF', href: 'https://ieeexplore.ieee.org/document/10994415' },
+        { label: 'CODE',  href: 'https://github.com/Norman-Ou/GeoPix' },
       ],
     },
     {
@@ -163,9 +161,12 @@ const zh: Content = {
   ],
   projTitle: '项目',
   projects: [
-    { name: '项目一', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。', tags: ['Python', 'PyTorch'] },
-    { name: '项目二', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。', tags: ['CUDA', 'C++'] },
-    { name: '项目三', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。', tags: ['React', 'D3'] },
+    { name: '项目一', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。' },
+    { name: '项目二', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。' },
+    { name: '项目三', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。' },
+    { name: '项目四', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。' },
+    { name: '项目五', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。' },
+    { name: '项目六', desc: '一句话描述项目目标、方法与你承担的角色，替换为真实内容。' },
   ],
   blogTitle: '随笔',
   posts: [
@@ -192,24 +193,24 @@ const en: Content = {
   heroLine1: 'OU Ruizhe - Richie',
   heroLine2: '',
   heroIntro:
-    "Culture shapes how we understand agency. I'm drawn to the question of whether AI can help us see more clearly — not less.",
+    "\"We're all boys before tonight\". Be creative, optimistic, and passionate.",
   eduStack: [
     {
-      label: 'NOW',
-      title: 'PhD · Remote Sensing Science and Technology',
-      sub: 'Peking University · Fall 2026',
+      label: 'PhD',
+      title: 'Peking University',
+      sub: 'Remote Sensing Science and Technology · Fall 2026',
       color: 'var(--pku)',
     },
     {
-      label: 'MASTER',
-      title: 'MEng · Artificial Intelligence',
-      sub: 'Beijing University of Posts and Telecommunications (BUPT) · with Prof. Zhang Chuang',
+      label: 'MEng',
+      title: 'Beijing University of Posts and Telecommunications',
+      sub: 'Artificial Intelligence · Advisor Prof. Zhang Chuang · 2023-2026',
       color: 'var(--accent)',
     },
     {
-      label: 'UNDERGRAD',
-      title: 'BEng · Telecom Engineering with Management',
-      sub: 'BUPT x Queen Mary University of London (QMUL) · First Class Honours',
+      label: 'BEng',
+      title: 'BUPT x Queen Mary University of London',
+      sub: 'Telecom Engineering with Management · First Class Honours · 2019-2023',
       color: 'var(--bupt)',
     },
   ],
@@ -223,8 +224,8 @@ const en: Content = {
   ],
   focus: {
     label: 'RESEARCH FOCUS',
-    title: 'AI for Science · Remote Sensing',
-    sub: 'Bringing machine learning to remote sensing and Earth observation — methods and systems that turn raw signals into usable science.',
+    title: 'AI for Science · Urban Sensing',
+    sub: "AI has become a tool for discovery. I'm drawn to how AI can help us explore the world.",
   },
   pubTitle: 'Publications',
   pubNote: 'PLACEHOLDER — replace with your real papers',
@@ -257,9 +258,12 @@ const en: Content = {
   ],
   projTitle: 'Projects',
   projects: [
-    { name: 'Project One', desc: 'One line on the goal, approach and your role. Replace with real content.', tags: ['Python', 'PyTorch'] },
-    { name: 'Project Two', desc: 'One line on the goal, approach and your role. Replace with real content.', tags: ['CUDA', 'C++'] },
-    { name: 'Project Three', desc: 'One line on the goal, approach and your role. Replace with real content.', tags: ['React', 'D3'] },
+    { name: 'Project One', desc: 'One line on the goal, approach and your role. Replace with real content.' },
+    { name: 'Project Two', desc: 'One line on the goal, approach and your role. Replace with real content.' },
+    { name: 'Project Three', desc: 'One line on the goal, approach and your role. Replace with real content.' },
+    { name: 'Project Four', desc: 'One line on the goal, approach and your role. Replace with real content.' },
+    { name: 'Project Five', desc: 'One line on the goal, approach and your role. Replace with real content.' },
+    { name: 'Project Six', desc: 'One line on the goal, approach and your role. Replace with real content.' },
   ],
   blogTitle: 'Blog',
   posts: [
