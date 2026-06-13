@@ -1,71 +1,17 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CONTENT, type LangKey, type ThemeKey } from '@/lib/content';
 import { SCENE_ART } from '@/lib/sceneArt';
 
 const THEME_KEY = 'hp-theme';
 const LANG_KEY = 'hp-lang';
-const PHOTO_KEY = 'hp-photo';
-const MAX_DIM = 1200;
+
+/** Fixed hero photo served from public/. Replace the file to change it. */
+const HERO_PHOTO = '/avatar.jpg';
 
 const SECTION_IDS = ['top', 'inquiries', 'pubs', 'projects', 'blog', 'contact'] as const;
 type SectionId = (typeof SECTION_IDS)[number];
-
-/**
- * Re-encode a dropped image through a canvas so localStorage carries a small,
- * retina-sharp WebP instead of the raw multi-MB upload. Falls back to a plain
- * data URL where createImageBitmap / canvas encoding is unavailable.
- */
-async function downscale(file: File, max = MAX_DIM): Promise<string> {
-  if (typeof createImageBitmap === 'function') {
-    try {
-      const bmp = await createImageBitmap(file);
-      const scale = Math.min(1, max / Math.max(bmp.width, bmp.height));
-      const w = Math.max(1, Math.round(bmp.width * scale));
-      const h = Math.max(1, Math.round(bmp.height * scale));
-      const canvas = document.createElement('canvas');
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(bmp, 0, 0, w, h);
-        bmp.close?.();
-        return canvas.toDataURL('image/webp', 0.85);
-      }
-      bmp.close?.();
-    } catch {
-      /* fall through to FileReader */
-    }
-  }
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result));
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
-}
-
-function PhotoIcon() {
-  return (
-    <svg
-      className="ps-icon"
-      width="28"
-      height="28"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" />
-      <path d="m21 15-5-5L5 21" />
-    </svg>
-  );
-}
 
 /** Golden-hour / moonlit ambience layered behind the hero. */
 function HeroMood() {
@@ -99,10 +45,7 @@ export default function Home() {
   // matches; stored preferences are applied right after mount.
   const [theme, setTheme] = useState<ThemeKey>('B');
   const [lang, setLang] = useState<LangKey>('en');
-  const [photo, setPhoto] = useState<string | null>(null);
-  const [dragOver, setDragOver] = useState(false);
   const [active, setActive] = useState<SectionId>('top');
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     try {
@@ -110,8 +53,6 @@ export default function Home() {
       if (t === 'A' || t === 'B') setTheme(t);
       const l = localStorage.getItem(LANG_KEY);
       if (l === 'zh' || l === 'en') setLang(l);
-      const p = localStorage.getItem(PHOTO_KEY);
-      if (p && /^data:image\//i.test(p)) setPhoto(p);
     } catch {
       /* ignore unavailable storage */
     }
@@ -166,31 +107,6 @@ export default function Home() {
     setLang(l);
     try {
       localStorage.setItem(LANG_KEY, l);
-    } catch {
-      /* ignore */
-    }
-  };
-
-  const ingest = useCallback(async (file: File | undefined | null) => {
-    if (!file || !file.type.startsWith('image/')) return;
-    try {
-      const url = await downscale(file);
-      setPhoto(url);
-      try {
-        localStorage.setItem(PHOTO_KEY, url);
-      } catch {
-        /* quota or unavailable — image still shows for the session */
-      }
-    } catch {
-      /* decode failed — leave the slot as-is */
-    }
-  }, []);
-
-  const removePhoto = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setPhoto(null);
-    try {
-      localStorage.removeItem(PHOTO_KEY);
     } catch {
       /* ignore */
     }
@@ -276,53 +192,7 @@ export default function Home() {
             <div className="corner-tl" />
             <div className="corner-br" />
             <div className="photo-frame">
-              <div
-                className={`photo-slot${photo ? ' filled' : ''}${dragOver ? ' drag-over' : ''}`}
-                style={photo ? { backgroundImage: `url(${photo})` } : undefined}
-                onClick={() => inputRef.current?.click()}
-                onDragOver={(e) => e.preventDefault()}
-                onDragEnter={(e) => {
-                  e.preventDefault();
-                  setDragOver(true);
-                }}
-                onDragLeave={(e) => {
-                  e.preventDefault();
-                  setDragOver(false);
-                }}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  setDragOver(false);
-                  ingest(e.dataTransfer.files?.[0]);
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label={c.photoLabel}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    inputRef.current?.click();
-                  }
-                }}
-              >
-                <PhotoIcon />
-                <div className="ps-cap">{c.photoLabel}</div>
-                <div className="ps-sub">
-                  <u>{c.photoSub}</u>
-                </div>
-                <button className="photo-remove" onClick={removePhoto} aria-label="Remove photo">
-                  ✕
-                </button>
-                <input
-                  ref={inputRef}
-                  type="file"
-                  accept="image/*"
-                  hidden
-                  onChange={(e) => {
-                    ingest(e.target.files?.[0]);
-                    e.currentTarget.value = '';
-                  }}
-                />
-              </div>
+              <img className="photo-img" src={HERO_PHOTO} alt={c.heroLine1} />
             </div>
           </div>
 

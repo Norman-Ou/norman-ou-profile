@@ -65,8 +65,6 @@ export interface Content {
   tA: string;
   tB: string;
   nav: NavLabels;
-  photoLabel: string;
-  photoSub: string;
   heroLine1: string;
   heroLine2: string;
   heroIntro: string;
@@ -92,8 +90,6 @@ const zh: Content = {
   tA: '深流',
   tB: '潮线',
   nav: { home: '首页', about: '探索', pubs: '论文', projects: '项目', blog: '随笔', contact: '联系' },
-  photoLabel: '拖入你的照片',
-  photoSub: '或 点击浏览',
   heroLine1: '区睿哲 — Ruizhe',
   heroLine2: '',
   heroIntro:
@@ -188,8 +184,6 @@ const en: Content = {
   tA: 'Deep',
   tB: 'Tide',
   nav: { home: 'Home', about: 'Inquiries', pubs: 'Publications', projects: 'Projects', blog: 'Blog', contact: 'Contact' },
-  photoLabel: 'Drop your photo',
-  photoSub: 'or browse files',
   heroLine1: 'OU Ruizhe - Richie',
   heroLine2: '',
   heroIntro:
